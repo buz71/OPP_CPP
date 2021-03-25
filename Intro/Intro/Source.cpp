@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <math.h>
 using std::cout;
 using std::cin;
 using std::endl;
@@ -60,6 +61,13 @@ public:
 	{
 		cout << "X= " << x << tab << "Y= " << y << endl;
 	}
+
+	double Distance()
+	{
+		
+		return sqrt((double)(pow(this->x, 2) + pow(this->y, 2)));
+	
+	}
 };
 
 void main()
@@ -84,11 +92,15 @@ void main()
 #endif // INTRO
 
 	Point A;
+	A.set_x(2);
+	A.set_y(2);
 
 	A.print();
 
-	Point B(2,3);
+	/*Point B(2,3);
 
-	B.print();
+	B.print();*/
+
+	cout << A.Distance() << endl;
 
 }
