@@ -6,6 +6,8 @@ using std::endl;
 
 #define tab "\t"
 //#define INTRO
+#define DELIMITER "--------------------------------------\n"
+#define HOMEWORK
 
 class Point
 {
@@ -40,19 +42,19 @@ public:
 	Point() 
 	{
 		x = y = 0;
-		cout<< "Constructor:\t" << this << endl;
+		//cout<< "Constructor:\t" << this << endl;
 	};
 
 	Point(double x, double y) 
 	{
 		this -> x = x;
 		this->y = y;
-		cout << "Constructor:\t" << this << endl;
+		//cout << "Constructor:\t" << this << endl;
 	}
 
 	~Point()
 	{
-		cout << "Destructor:\t" << this << endl;
+		//cout << "Destructor:\t" << this << endl;
 	}
 
 	// Methods
@@ -65,9 +67,18 @@ public:
 	double Distance()
 	{
 		
-		return sqrt((double)(pow(this->x, 2) + pow(this->y, 2)));
+		return abs(sqrt((double)(pow(this->x, 2) + pow(this->y, 2))));
+
+	}
+
+	double DistBetween(Point A, Point B)
+	{
+		int x = abs(A.x-B.x);
+		int y = abs(A.y - B.y);
+		return sqrt((double)(pow(x,2) + pow(y,2)));
 	
 	}
+
 };
 
 void main()
@@ -91,16 +102,32 @@ void main()
 	cout << sizeof(pA);
 #endif // INTRO
 
-	Point A;
-	A.set_x(2);
-	A.set_y(2);
+	int x, y;
+	cout << "Введите координаты точки А" << endl;
+	cout << "X: ";cin >> x;
+	cout << "Y: "; cin >> y;
 
-	A.print();
+	Point A(x, y);
 
-	/*Point B(2,3);
+	cout << "Введите координаты точки B" << endl;
+	cout << "X: "; cin >> x;
+	cout << "Y: "; cin >> y;
 
-	B.print();*/
+	Point B(x, y);
 
-	cout << A.Distance() << endl;
+	cout << DELIMITER;
+
+	cout <<"Расстояние до точки А: " <<A.Distance()<<endl;
+
+	cout << DELIMITER;
+
+	cout << "Расстояние от точки А до В: " << A.DistBetween(A,B) << endl;
+
+	cout << DELIMITER;
+
+
+
+
+
 
 }
