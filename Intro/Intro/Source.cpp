@@ -102,6 +102,8 @@ void main()
 	cout << sizeof(pA);
 #endif // INTRO
 
+#ifdef HOMEWORK
+
 	int x, y;
 	cout << "Введите координаты точки А" << endl;
 	cout << "X: ";cin >> x;
@@ -125,6 +127,7 @@ void main()
 
 	cout << DELIMITER;
 
+#endif // HOMEWORK
 
 
 
