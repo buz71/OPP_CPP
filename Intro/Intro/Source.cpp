@@ -67,14 +67,14 @@ public:
 	double Distance()
 	{
 		
-		return abs(sqrt((double)(pow(this->x, 2) + pow(this->y, 2))));
+		return sqrt((double)(pow(this->x, 2) + pow(this->y, 2)));
 
 	}
 
 	double DistBetween(Point A, Point B)
 	{
-		int x = abs(A.x-B.x);
-		int y = abs(A.y - B.y);
+		int x = (A.x-B.x);
+		int y = (A.y - B.y);
 		return sqrt((double)(pow(x,2) + pow(y,2)));
 	
 	}
