@@ -9,6 +9,8 @@ using std::endl;
 #define DELIMITER "--------------------------------------\n"
 //#define HOMEWORK
 //#define CONSTRUCTORS_CHECK
+//#define ASSIGNMENT_CHECK
+//#define ARITHMETICAL_OPERATORS
 
 //double Distance(Point A, Point B)
 //{
@@ -75,7 +77,7 @@ public:
 		cout << "Destructor:\t" << this << endl;
 	}
 
-	//	Operators:
+	//	Operators overload:
 
 	Point& operator=(const Point& other)
 	{
@@ -84,6 +86,16 @@ public:
 		cout << "CopyAssignment:\t" <<this << endl;
 		return *this;
 	}
+	
+	/*Point operator+(const Point& other)const
+	{
+		Point result;
+		result.x = this->x + other.x;
+		result.y = this->y + other.y;
+		cout << "Operator + " << this << endl;
+		return result;
+	}*/
+
 
 	//	Methods:
 
@@ -106,6 +118,46 @@ public:
 	}
 
 };
+
+Point operator+(const Point& left, const Point& right) 
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	cout << "Global plus" << endl;
+	return result;
+}
+
+Point operator-(const Point& left, const Point& right)
+{
+	Point result(left.get_x() - right.get_x(), left.get_y() - right.get_y());
+	cout << "Global - " << endl;
+	return result;
+}
+
+Point operator*(const Point& left, const Point& right)
+{
+	cout << "Global * " << endl;
+	return Point
+	(
+		left.get_x() * right.get_x(),
+		left.get_y() * right.get_y()
+
+	);
+
+}
+
+Point operator/(const Point& left, const Point& right)
+{
+	cout << "Global / " << endl;
+	return Point
+	(
+		left.get_x() / right.get_x(),
+		left.get_y() / right.get_y()
+
+	);
+
+}
 
 void main()
 {
@@ -179,12 +231,24 @@ void main()
 	G = F; // CopyAssigment  
 #endif // CONSTRUCTORS_CHECK
 
+#ifdef ASSIGNMENT_CHECK
 	int a, b, c;
 	a = b = c = 0;
-
 	Point A, B, C;
 	A = B = C = Point();
+#endif // ASSIGNMENT_CHECK
 
+#ifdef ARITHMETICAL_OPERATORS
+	Point A(2, 3);
+	Point B(3, 4);
+	A.Print();
+	B.Print();
+	Point C = A / B;
+	C.Print();
+	(A / B).Print();
+	A.Print();
+	B.Print();
 
+#endif // ARITHMETICAL_OPERATORS
 
 }
