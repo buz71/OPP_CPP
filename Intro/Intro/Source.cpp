@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <math.h>
+using namespace std;
 using std::cout;
 using std::cin;
 using std::endl;
@@ -86,7 +87,40 @@ public:
 		cout << "CopyAssignment:\t" <<this << endl;
 		return *this;
 	}
+
+	Point & operator+=(const Point other)
+	{
+		this->x += other.x;
+		this->y += other.y;
+		cout << "Operator += " << this << endl;
+		return *this;
+	}
+
+	Point& operator-=(const Point other)
+	{
+		this->x -= other.x;
+		this->y -= other.y;
+		cout << "Operator -= " << this << endl;
+		return *this;
+	}
 	
+	// Increment/Decrement
+
+	Point& operator++()
+	{
+		this->x++;
+		this->y++;
+		return *this;
+	}
+
+	Point& operator++(int)
+	{
+		Point old = *this;
+		this->x++;
+		this->y++;
+		return old;
+	}
+
 	/*Point operator+(const Point& other)const
 	{
 		Point result;
@@ -119,6 +153,7 @@ public:
 
 };
 
+ // OPERATORS
 Point operator+(const Point& left, const Point& right) 
 {
 	Point result;
@@ -157,6 +192,12 @@ Point operator/(const Point& left, const Point& right)
 
 	);
 
+}
+
+ostream& operator<<(ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << tab << "Y = " << obj.get_y();
+	
 }
 
 void main()
@@ -250,5 +291,11 @@ void main()
 	B.Print();
 
 #endif // ARITHMETICAL_OPERATORS
+
+	Point A(2, 3);
+	Point B(3, 4);
+	A++;
+	A.Print();
+	cout << A << endl;
 
 }
