@@ -261,26 +261,24 @@ public:
 
 	// Operators
 
-	/*Fraction operator+(const Fraction& A)
+	Fraction operator+(Fraction A)
 	{
-		if (this->numerator!=A.numerator)
-		{
-			for (int i = 0; i < length; i++)
-			{
-				if (this->denominator%)
-				{
-
-				}
-			}
-		}
-		else
+		if (this->denominator==A.denominator)
 		{
 			this->numerator += A.numerator;
 		}
 
+		if (this->denominator!=A.denominator)
+		{
+			int com_denum = common_denominator(A);
+			this->numerator *= ( com_denum/this->denominator );
+			A.numerator *= ( com_denum/A.denominator);
+			this->numerator += A.numerator;
+			this->denominator = com_denum;
+		}
 
 		return *this;
-	}*/
+	}
 
 
 
@@ -427,12 +425,13 @@ void main()
 #endif // ARITHMETICAL_OPERATORS
 
 #ifdef HOMEWORK_FRACTION
-	Fraction A(2, 16);
-	Fraction B(1, 5);
+	Fraction A(5, 8);
+	Fraction B(1, 3);
 	A.print();
-	//B.Print();
-	A.reduce();
+	B.print();
+	A + B;
 	A.print();
+	B.print();
 
 	
 	
