@@ -220,6 +220,59 @@ public:
 	{
 		
 	}
+	uint common_denominator(Fraction B)
+	{
+		uint count;
+		if ((this->denominator)>(B.denominator))
+		{
+			for (count = this->denominator; ; count+= this->denominator)
+			{
+				if ((this->denominator)%(B.denominator)==0)
+				{
+					break;
+				}
+			}
+		}
+		if ((this->denominator) < (B.denominator))
+		{
+
+			for (count = B.denominator; ; count += B.denominator)
+			{
+				if (B.denominator % this->denominator == 0)
+				{
+					break;
+				}
+			}
+		}
+
+
+		return count;
+		
+		
+	}
+
+	// Operators
+
+	/*Fraction operator+(const Fraction& A)
+	{
+		if (this->numerator!=A.numerator)
+		{
+			for (int i = 0; i < length; i++)
+			{
+				if (this->denominator%)
+				{
+
+				}
+			}
+		}
+		else
+		{
+			this->numerator += A.numerator;
+		}
+
+
+		return *this;
+	}*/
 
 
 
@@ -366,12 +419,13 @@ void main()
 #endif // ARITHMETICAL_OPERATORS
 
 #ifdef HOMEWORK_FRACTION
-	Fraction fraction(5, 4);
-	fraction.Print();
-	fraction.to_propper();
-	fraction.Print();
-	fraction.to_improper();
-	fraction.Print();
+	Fraction A(1, 3);
+	Fraction B(1, 2);
+	A.Print();
+	B.Print();
+	
+	cout<<A.common_denominator(B);
+	
 
 
 #endif // HOMEWORK_FRACTION
