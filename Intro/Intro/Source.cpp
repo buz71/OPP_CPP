@@ -261,25 +261,6 @@ public:
 
 	// Operators
 
-	Fraction& operator+(Fraction A)
-	{
-		//Fraction B=*this;
-		if (this->denominator==A.denominator)
-		{
-			this->numerator += A.numerator;
-		}
-
-		if (this->denominator!=A.denominator)
-		{
-			int com_denum = common_denominator(A);
-			this->numerator *= ( com_denum/this->denominator );
-			A.numerator *= ( com_denum/A.denominator);
-			this->numerator += A.numerator;
-			this->denominator = com_denum;
-		}
-
-		return *this;
-	}
 	Fraction& operator-(Fraction A)
 	{
 		if (this->denominator == A.denominator)
@@ -299,6 +280,25 @@ public:
 		return *this;
 	
 	}
+	Fraction& operator+(Fraction A)
+	{
+		//Fraction B=*this;
+		if (this->denominator==A.denominator)
+		{
+			this->numerator += A.numerator;
+		}
+
+		if (this->denominator!=A.denominator)
+		{
+			int com_denum = common_denominator(A);
+			this->numerator *= ( com_denum/this->denominator );
+			A.numerator *= ( com_denum/A.denominator);
+			this->numerator += A.numerator;
+			this->denominator = com_denum;
+		}
+
+		return *this;
+	}
 	Fraction& operator*(Fraction A)
 	{
 		this->numerator *= A.numerator;
@@ -311,6 +311,26 @@ public:
 		this->denominator *= A.numerator;
 		return *this;
 	}
+	Fraction& operator+=(Fraction A)
+	{
+		if (this->denominator == A.denominator)
+		{
+			this->numerator += A.numerator;
+		}
+
+		if (this->denominator != A.denominator)
+		{
+			int com_denum = common_denominator(A);
+			this->numerator *= (com_denum / this->denominator);
+			A.numerator *= (com_denum / A.denominator);
+			this->numerator += A.numerator;
+			this->denominator = com_denum;
+		}
+
+		return *this;
+	
+	}
+
 
 
 
@@ -463,8 +483,9 @@ void main()
 	A.print();
 	B.print();
 	cout << DELIMITER;
-	Fraction C = A/B;
-	C.print();
+	A += B;
+	A.print();
+
 
 	
 	
