@@ -6,7 +6,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-typedef unsigned int uint;
+//typedef unsigned int uint;
 
 #define tab "\t"
 //#define INTRO
@@ -162,9 +162,9 @@ class Fraction
 	
 
 private:
-	uint numerator;
-	uint denominator;
-	uint common_denominator(Fraction A)
+	int numerator;
+	int denominator;
+	int common_denominator(Fraction A)
 	{
 		if ((this->denominator) < (A.denominator))
 		{
@@ -195,25 +195,25 @@ private:
 	}
 
 public:
-	uint GetNumerator()const
+	int GetNumerator()const
 	{
 		return numerator;
 	}
-	uint GetDenominator()const
+	int GetDenominator()const
 	{
 		return denominator;
 	}
-	void SetNumerator(uint numerator)
+	void SetNumerator(int numerator)
 	{
 		this->numerator = numerator;
 	}
-	void SetDenominator(uint denominator) 
+	void SetDenominator(int denominator) 
 	{
 		this->denominator = denominator;
 	}
 	// Constructors & Destructor
 
-	Fraction(uint numerator = 0, uint denominator =0)
+	Fraction(int numerator = 0, int denominator =0)
 	{
 		this->numerator = numerator;
 		this->denominator = denominator;
@@ -278,6 +278,25 @@ public:
 		}
 
 		return *this;
+	}
+	Fraction operator-(Fraction A)
+	{
+		if (this->denominator == A.denominator)
+		{
+			this->numerator += A.numerator;
+		}
+
+		if (this->denominator != A.denominator)
+		{
+			int com_denum = common_denominator(A);
+			this->numerator *= (com_denum / this->denominator);
+			A.numerator *= (com_denum / A.denominator);
+			this->numerator -= A.numerator;
+			this->denominator = com_denum;
+		}
+
+		return *this;
+	
 	}
 
 
@@ -429,7 +448,7 @@ void main()
 	Fraction B(1, 3);
 	A.print();
 	B.print();
-	A + B;
+	A-B;
 	A.print();
 	B.print();
 
