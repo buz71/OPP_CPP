@@ -261,8 +261,9 @@ public:
 
 	// Operators
 
-	Fraction operator+(Fraction A)
+	Fraction& operator+(Fraction A)
 	{
+		//Fraction B=*this;
 		if (this->denominator==A.denominator)
 		{
 			this->numerator += A.numerator;
@@ -279,7 +280,7 @@ public:
 
 		return *this;
 	}
-	Fraction operator-(Fraction A)
+	Fraction& operator-(Fraction A)
 	{
 		if (this->denominator == A.denominator)
 		{
@@ -298,6 +299,19 @@ public:
 		return *this;
 	
 	}
+	Fraction& operator*(Fraction A)
+	{
+		this->numerator *= A.numerator;
+		this->denominator *= A.denominator;
+		return *this;
+	}
+	Fraction& operator/(Fraction A) 
+	{
+		this->numerator *= A.denominator;
+		this->denominator *= A.numerator;
+		return *this;
+	}
+
 
 
 
@@ -444,13 +458,13 @@ void main()
 #endif // ARITHMETICAL_OPERATORS
 
 #ifdef HOMEWORK_FRACTION
-	Fraction A(5, 8);
+	Fraction A(1, 2);
 	Fraction B(1, 3);
 	A.print();
 	B.print();
-	A-B;
-	A.print();
-	B.print();
+	cout << DELIMITER;
+	Fraction C = A/B;
+	C.print();
 
 	
 	
