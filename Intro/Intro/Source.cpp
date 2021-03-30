@@ -1,9 +1,12 @@
 ﻿#include <iostream>
 #include <math.h>
+
 using namespace std;
 using std::cout;
 using std::cin;
 using std::endl;
+
+typedef unsigned int uint;
 
 #define tab "\t"
 //#define INTRO
@@ -12,6 +15,7 @@ using std::endl;
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
 //#define ARITHMETICAL_OPERATORS
+#define HOMEWORK_FRACTION
 
 //double Distance(Point A, Point B)
 //{
@@ -150,6 +154,75 @@ public:
 		return sqrt((double)(pow(x,2) + pow(y,2)));
 	
 	}
+
+};
+
+class Fraction
+{
+	
+
+private:
+	uint numerator;
+	uint denominator;
+
+public:
+	uint GetNumerator()const
+	{
+		return numerator;
+	}
+	uint GetDenominator()const
+	{
+		return denominator;
+	}
+	void SetNumerator(uint numerator)
+	{
+		this->numerator = numerator;
+	}
+	void SetDenominator(uint denominator) 
+	{
+		this->denominator = denominator;
+	}
+	// Constructors & Destructor
+
+	Fraction(uint numerator = 0, uint denominator =0)
+	{
+		this->numerator = numerator;
+		this->denominator = denominator;
+	}
+	~Fraction() {};
+
+	// Methods
+
+	void Print()
+	{
+		cout << this->numerator << "/" << this->denominator << endl;
+	}
+	void to_propper()
+	{
+		if (this->numerator>this->denominator)
+		{
+			short buffer = this->numerator;
+			this->numerator = this->denominator;
+			this->denominator = buffer;
+		}
+	}
+	void to_improper()
+	{
+		if (this->numerator < this->denominator)
+		{
+			short buffer = this->numerator;
+			this->numerator = this->denominator;
+			this->denominator = buffer;
+		}
+		
+	}
+	void reduce(uint numForReduce)
+	{
+		
+	}
+
+
+
 
 };
 
@@ -292,10 +365,16 @@ void main()
 
 #endif // ARITHMETICAL_OPERATORS
 
-	Point A(2, 3);
-	Point B(3, 4);
-	A++;
-	A.Print();
-	cout << A << endl;
+#ifdef HOMEWORK_FRACTION
+	Fraction fraction(5, 4);
+	fraction.Print();
+	fraction.to_propper();
+	fraction.Print();
+	fraction.to_improper();
+	fraction.Print();
+
+
+#endif // HOMEWORK_FRACTION
+
 
 }
