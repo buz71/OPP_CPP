@@ -222,7 +222,7 @@ public:
 
 	// Methods
 
-	void Print()
+	void print()
 	{
 		cout << this->numerator << "/" << this->denominator << endl;
 	}
@@ -245,9 +245,17 @@ public:
 		}
 		
 	}
-	void reduce(uint numForReduce)
+	void reduce()
 	{
-		
+		for (int i = this->denominator; i >0 ; i--)
+		{
+			if ((this->numerator)%i==0&&(this->denominator)%i==0)
+			{
+				this->numerator /= i;
+				this->denominator /= i;
+				break;
+			}
+		}
 	}
 	
 
@@ -419,12 +427,14 @@ void main()
 #endif // ARITHMETICAL_OPERATORS
 
 #ifdef HOMEWORK_FRACTION
-	Fraction A(1, 3);
+	Fraction A(2, 16);
 	Fraction B(1, 5);
-	A.Print();
-	B.Print();
+	A.print();
+	//B.Print();
+	A.reduce();
+	A.print();
+
 	
-	cout<<A.common_denominator(B);
 	
 
 
