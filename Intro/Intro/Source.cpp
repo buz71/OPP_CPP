@@ -164,6 +164,35 @@ class Fraction
 private:
 	uint numerator;
 	uint denominator;
+	uint common_denominator(Fraction A)
+	{
+		if ((this->denominator) < (A.denominator))
+		{
+			for (int i = A.denominator; ; i += A.denominator)
+			{
+				if (i % (this->denominator) == 0)
+				{
+					return i;
+				}
+			}
+		}
+		if ((this->denominator) > (A.denominator))
+		{
+
+			for (int i = this->denominator; ; i += this->denominator)
+			{
+				if (i % (A.denominator) == 0)
+				{
+					return i;
+				}
+			}
+		}
+
+
+
+
+
+	}
 
 public:
 	uint GetNumerator()const
@@ -220,36 +249,7 @@ public:
 	{
 		
 	}
-	uint common_denominator(Fraction B)
-	{
-		uint count;
-		if ((this->denominator)>(B.denominator))
-		{
-			for (count = this->denominator; ; count+= this->denominator)
-			{
-				if ((this->denominator)%(B.denominator)==0)
-				{
-					break;
-				}
-			}
-		}
-		if ((this->denominator) < (B.denominator))
-		{
-
-			for (count = B.denominator; ; count += B.denominator)
-			{
-				if (B.denominator % this->denominator == 0)
-				{
-					break;
-				}
-			}
-		}
-
-
-		return count;
-		
-		
-	}
+	
 
 	// Operators
 
@@ -420,7 +420,7 @@ void main()
 
 #ifdef HOMEWORK_FRACTION
 	Fraction A(1, 3);
-	Fraction B(1, 2);
+	Fraction B(1, 5);
 	A.Print();
 	B.Print();
 	
