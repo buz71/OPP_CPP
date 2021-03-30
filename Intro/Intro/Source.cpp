@@ -349,6 +349,18 @@ public:
 		return *this;
 	
 	}
+	Fraction& operator*=(Fraction A)
+	{
+		this->numerator *= A.numerator;
+		this->denominator *= A.denominator;
+		return *this;
+	}
+	Fraction& operator/=(Fraction A)
+	{
+		this->numerator *= A.denominator;
+		this->denominator *= A.numerator;
+		return *this;
+	}
 
 
 
