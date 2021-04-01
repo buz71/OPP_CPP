@@ -270,8 +270,8 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 		if (obj.GetInteger())
 		{
 			os << "(";
-			os << obj.GetNumerator() << "/" << obj.GetDenominator();
 		}
+			os << obj.GetNumerator() << "/" << obj.GetDenominator();
 		
 		if (obj.GetInteger())
 		{
@@ -308,5 +308,8 @@ void main()
 	Fraction A(11, 4);
 	cout << A.to_improper() <<" = "<<A.to_proper()<<endl;
 	cout << A.to_proper() << " = " << A.to_improper() << endl;
+	Fraction D(2, 2, 8);
+	D.reduce();
+	cout << D;
 
 }
