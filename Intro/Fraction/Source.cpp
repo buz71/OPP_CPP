@@ -265,7 +265,7 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 	{
 		os << obj.GetInteger();
 	}
-	if (obj.GetInteger())
+	if (obj.GetNumerator())
 	{
 		if (obj.GetInteger())
 		{
