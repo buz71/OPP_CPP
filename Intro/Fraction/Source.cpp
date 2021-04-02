@@ -183,6 +183,7 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 		{
 			os << "(";
 		}
+			os << obj.GetNumerator() << "/" << obj.GetDenominator();
 		
 		os << obj.GetNumerator() << "/" << obj.GetDenominator();
 		
@@ -270,6 +271,7 @@ void main()
 #endif // CONSTRUCTORS_CHECK
 #ifdef arithmetical_operators
 	Fraction A(11, 4);
+<<<<<<< HEAD
 	Fraction B(5, 6, 7);
 	cout << DELIMITER << endl;
 	Fraction C = A * B;
@@ -290,5 +292,12 @@ void main()
 	
 	
 	
+=======
+	cout << A.to_improper() <<" = "<<A.to_proper()<<endl;
+	cout << A.to_proper() << " = " << A.to_improper() << endl;
+	Fraction D(2, 2, 8);
+	D.reduce();
+	cout << D;
+>>>>>>> master
 
 }
