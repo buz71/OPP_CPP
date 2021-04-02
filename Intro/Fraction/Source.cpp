@@ -4,7 +4,12 @@ using namespace std;
 using std::cout;
 using std::cin;
 using std::endl;
+#define DELIMITER "\n---------------------------------------\n"
+#define tab "\t"
 //#define CONSTRUCTORS_CHECK
+
+class Fraction;
+Fraction operator*(Fraction left, Fraction right);
 
 class Fraction
 {
@@ -35,11 +40,6 @@ private:
 				}
 			}
 		}
-
-
-
-
-
 	}
 public:
 	int GetInteger()const
@@ -79,28 +79,28 @@ public:
 		this->integer = integer;
 		this->numerator = numerator;
 		this->SetDenominator(denominator);
-		cout << "Constructor:\t" << this << endl;
+		//cout << "Constructor:\t" << this << endl;
 	}
 	Fraction() //Default constructor
 	{
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 0;
-		cout << "Default constructor: " << this << endl;
+		//cout << "Default constructor: " << this << endl;
 	}
 	Fraction(int integer) //Sinagle argument constructor
 	{
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
-		cout << "SingleIntegerConstructor: " << this << endl;
+		//cout << "SingleIntegerConstructor: " << this << endl;
 	}
 	Fraction(int numerator,int denominator)
 	{
 		this->integer = 0;
 		this->numerator = numerator;
 		this->SetDenominator(denominator);
-		cout << "Constructor: " << this << endl;
+		//cout << "Constructor: " << this << endl;
 	
 	}
 	Fraction(const Fraction& other)
@@ -108,15 +108,14 @@ public:
 		this->integer = other.integer;
 		this->numerator = other.numerator;
 		this->denominator = other.denominator;
-		cout << "CopyConstructor:\t" << this << endl;
+		//cout << "CopyConstructor:\t" << this << endl;
 	}
 	~Fraction() 
 	{
-		cout << "Destructor:\t" << this << endl;
+		//cout << "Destructor:\t" << this << endl;
 	};
 
 	// Methods
-	
 	void print()
 	{
 		cout <<integer<<"("<<numerator << "/" << denominator <<")"<< endl;
@@ -144,6 +143,7 @@ public:
 	}
 	void reduce()
 	{
+
 		for (int i = this->denominator; i > 0; i--)
 		{
 			if ((this->numerator) % i == 0 && (this->denominator) % i == 0)
@@ -155,107 +155,19 @@ public:
 		}
 	}
 
-	// Operators
+	// Operators NOT FINISHED
+	Fraction& operator=(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+	Fraction& operator*=(const Fraction& other) 
+	{
+		return *this = *this * other;
 	
-	Fraction& operator+(Fraction A)
-	{
-		//Fraction B=*this;
-		if (this->denominator == A.denominator)
-		{
-			this->numerator += A.numerator;
-		}
-
-		if (this->denominator != A.denominator)
-		{
-			int com_denum = common_denominator(A);
-			this->numerator *= (com_denum / this->denominator);
-			A.numerator *= (com_denum / A.denominator);
-			this->numerator += A.numerator;
-			this->denominator = com_denum;
-		}
-
-		return *this;
-	}
-	Fraction& operator-(Fraction A)
-	{
-		if (this->denominator == A.denominator)
-		{
-			this->numerator += A.numerator;
-		}
-
-		if (this->denominator != A.denominator)
-		{
-			int com_denum = common_denominator(A);
-			this->numerator *= (com_denum / this->denominator);
-			A.numerator *= (com_denum / A.denominator);
-			this->numerator -= A.numerator;
-			this->denominator = com_denum;
-		}
-
-		return *this;
-
-	}
-	Fraction& operator*(Fraction A)
-	{
-		this->numerator *= A.numerator;
-		this->denominator *= A.denominator;
-		return *this;
-	}
-	Fraction& operator/(Fraction A)
-	{
-		this->numerator *= A.denominator;
-		this->denominator *= A.numerator;
-		return *this;
-	}
-	Fraction& operator+=(Fraction A)
-	{
-		if (this->denominator == A.denominator)
-		{
-			this->numerator += A.numerator;
-		}
-
-		if (this->denominator != A.denominator)
-		{
-			int com_denum = common_denominator(A);
-			this->numerator *= (com_denum / this->denominator);
-			A.numerator *= (com_denum / A.denominator);
-			this->numerator += A.numerator;
-			this->denominator = com_denum;
-		}
-
-		return *this;
-
-	}
-	Fraction& operator-=(Fraction A)
-	{
-		if (this->denominator == A.denominator)
-		{
-			this->numerator += A.numerator;
-		}
-
-		if (this->denominator != A.denominator)
-		{
-			int com_denum = common_denominator(A);
-			this->numerator *= (com_denum / this->denominator);
-			A.numerator *= (com_denum / A.denominator);
-			this->numerator -= A.numerator;
-			this->denominator = com_denum;
-		}
-
-		return *this;
-
-	}
-	Fraction& operator*=(Fraction A)
-	{
-		this->numerator *= A.numerator;
-		this->denominator *= A.denominator;
-		return *this;
-	}
-	Fraction& operator/=(Fraction A)
-	{
-		this->numerator *= A.denominator;
-		this->denominator *= A.numerator;
-		return *this;
 	}
 };
 
@@ -270,8 +182,9 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 		if (obj.GetInteger())
 		{
 			os << "(";
-			os << obj.GetNumerator() << "/" << obj.GetDenominator();
 		}
+		
+		os << obj.GetNumerator() << "/" << obj.GetDenominator();
 		
 		if (obj.GetInteger())
 		{
@@ -285,6 +198,57 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 	return os;
 
 }
+Fraction operator+(Fraction left, Fraction right)
+{
+	left.to_proper();
+	right.to_proper();
+	Fraction result;
+	result.SetInteger(left.GetInteger() + right.GetInteger());
+	result.SetNumerator(left.GetNumerator()*right.GetDenominator() + right.GetNumerator()*left.GetDenominator());
+	result.SetDenominator(left.GetDenominator() * right.GetDenominator());
+	result.to_proper();
+	return result;
+
+
+}
+Fraction operator*(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		left.GetNumerator() * right.GetNumerator(),
+		left.GetDenominator() * right.GetDenominator()
+
+	).to_proper();
+
+}
+Fraction operator-(Fraction left, Fraction right)
+{
+	left.to_proper();
+	right.to_proper();
+	Fraction result
+	(
+		left.GetInteger() - right.GetInteger(),
+		left.GetNumerator() * right.GetDenominator() - right.GetNumerator() * left.GetNumerator(),
+		left.GetDenominator() * right.GetDenominator()
+	);
+	result.to_proper();
+	return result;
+
+}
+Fraction operator/(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		left.GetNumerator() * right.GetDenominator(),
+		left.GetDenominator() * right.GetNumerator()
+	);
+}
+
+//#define arithmetical_operators
 
 void main()
 {
@@ -304,9 +268,27 @@ void main()
 	D.print();
 	cout << D << endl;
 #endif // CONSTRUCTORS_CHECK
-
+#ifdef arithmetical_operators
 	Fraction A(11, 4);
-	cout << A.to_improper() <<" = "<<A.to_proper()<<endl;
-	cout << A.to_proper() << " = " << A.to_improper() << endl;
+	Fraction B(5, 6, 7);
+	cout << DELIMITER << endl;
+	Fraction C = A * B;
+	cout << C << endl;
+	cout << DELIMITER << endl;
+	C = A - B;
+	cout << C << endl;
+	cout << DELIMITER << endl;
+	cout << A / B << endl;
+#endif // arithmetical_operators
+	Fraction A(11, 4);
+	Fraction B(5, 6, 7);
+	A *= B;
+	cout << A;
+	
+
+
+	
+	
+	
 
 }
