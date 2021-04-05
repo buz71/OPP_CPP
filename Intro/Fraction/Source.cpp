@@ -185,6 +185,29 @@ public:
 	{
 		return *this = *this - other;
 	}
+	Fraction& operator++()
+	{
+		this->integer++;
+		return *this;
+	}
+	Fraction& operator++(int value)
+	{
+		Fraction newThis = *this;
+		this->integer++;
+		return newThis;
+	}
+	Fraction& operator--()
+	{
+		this->integer--;
+		return *this;
+
+	}
+	Fraction& operator--(int value)
+	{
+		Fraction newThis = *this;
+		this->integer--;
+		return newThis;
+	}
 	bool operator ==(const Fraction& other)
 	{
 		Fraction copyThis=*this;
@@ -277,6 +300,7 @@ public:
 			return false;
 		}
 	}
+
 };
 
 //Operators oveldoad outside class
@@ -390,9 +414,5 @@ void main()
 	cout << DELIMITER << endl;
 	cout << A / B << endl;
 #endif // arithmetical_operators
-	Fraction A(1, 3);
-	Fraction B(1, 2);
-	bool result= A<B;
-	cout << result;
 
 }
