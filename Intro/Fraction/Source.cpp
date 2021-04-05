@@ -10,6 +10,9 @@ using std::endl;
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
+Fraction operator/(Fraction left, Fraction right);
+Fraction operator-(Fraction left, Fraction right);
+Fraction operator+(Fraction left, Fraction right);
 
 class Fraction
 {
@@ -103,7 +106,7 @@ public:
 		//cout << "Constructor: " << this << endl;
 	
 	}
-	Fraction(const Fraction& other)
+	Fraction(const Fraction& other) //Конструктор копирования
 	{
 		this->integer = other.integer;
 		this->numerator = other.numerator;
@@ -155,7 +158,7 @@ public:
 		}
 	}
 
-	// Operators NOT FINISHED
+	//operators overload
 	Fraction& operator=(const Fraction& other)
 	{
 		this->integer = other.integer;
@@ -169,8 +172,114 @@ public:
 		return *this = *this * other;
 	
 	}
+	Fraction& operator/=(const Fraction& other)
+	{
+		return *this= *this / other;
+	
+	}
+	Fraction& operator+=(const Fraction& other) 
+	{
+		return *this = *this + other;
+	}
+	Fraction& operator-=(const Fraction& other)
+	{
+		return *this = *this - other;
+	}
+	bool operator ==(const Fraction& other)
+	{
+		Fraction copyThis=*this;
+		Fraction copyOther = other;
+		copyThis.to_improper();
+		copyOther.to_improper();
+		if ((copyThis.GetNumerator()*copyOther.GetDenominator())==(copyOther.GetNumerator()*copyThis.GetDenominator()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	bool operator !=(const Fraction& other)
+	{
+		Fraction copyThis = *this;
+		Fraction copyOther = other;
+		copyThis.to_improper();
+		copyOther.to_improper();
+		if ((copyThis.GetNumerator() * copyOther.GetDenominator()) != (copyOther.GetNumerator() * copyThis.GetDenominator()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	bool operator <(const Fraction& other)
+	{
+		Fraction copyThis = *this;
+		Fraction copyOther = other;
+		copyThis.to_improper();
+		copyOther.to_improper();
+		if ((copyThis.GetNumerator() * copyOther.GetDenominator()) < (copyOther.GetNumerator() * copyThis.GetDenominator()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	
+	}
+	bool operator <=(const Fraction& other) 
+	{
+		Fraction copyThis = *this;
+		Fraction copyOther = other;
+		copyThis.to_improper();
+		copyOther.to_improper();
+		if ((copyThis.GetNumerator() * copyOther.GetDenominator()) <= (copyOther.GetNumerator() * copyThis.GetDenominator()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	
+	}
+	bool operator >(const Fraction& other) 
+	{
+		Fraction copyThis = *this;
+		Fraction copyOther = other;
+		copyThis.to_improper();
+		copyOther.to_improper();
+		if ((copyThis.GetNumerator() * copyOther.GetDenominator()) > (copyOther.GetNumerator() * copyThis.GetDenominator()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	bool operator >=(const Fraction& other)
+	{
+		Fraction copyThis = *this;
+		Fraction copyOther = other;
+		copyThis.to_improper();
+		copyOther.to_improper();
+		if ((copyThis.GetNumerator() * copyOther.GetDenominator()) >= (copyOther.GetNumerator() * copyThis.GetDenominator()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 };
 
+//Operators oveldoad outside class
 ostream& operator<<(ostream& os, const Fraction& obj)
 {
 	if (obj.GetInteger())
@@ -249,8 +358,7 @@ Fraction operator/(Fraction left, Fraction right)
 	);
 }
 
-//#define arithmetical_operators
-
+//#define arithmetical_operator
 void main()
 {
 	setlocale(LC_ALL, "ru");
@@ -282,22 +390,9 @@ void main()
 	cout << DELIMITER << endl;
 	cout << A / B << endl;
 #endif // arithmetical_operators
-	Fraction A(11, 4);
-	Fraction B(5, 6, 7);
-	A *= B;
-	cout << A;
-	
-
-
-	
-	
-	
-=======
-	cout << A.to_improper() <<" = "<<A.to_proper()<<endl;
-	cout << A.to_proper() << " = " << A.to_improper() << endl;
-	Fraction D(2, 2, 8);
-	D.reduce();
-	cout << D;
->>>>>>> master
+	Fraction A(1, 3);
+	Fraction B(1, 2);
+	bool result= A<B;
+	cout << result;
 
 }
