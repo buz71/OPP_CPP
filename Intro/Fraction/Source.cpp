@@ -7,7 +7,12 @@ using std::endl;
 #define DELIMITER "\n---------------------------------------\n"
 #define tab "\t"
 //#define DEBUG
+//#define arithmetical_operator
 //#define CONSTRUCTORS_CHECK
+//#define COMPAUND_ASSIGNMENTS
+//#define INCREMENT_CHECK
+//#define COMPARISON_OPERATORS
+#define TYPE_CONVERSION
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
@@ -246,14 +251,14 @@ public:
 	}
 	Fraction& operator++()
 	{
-		this->integer++;
+		integer++;
 		return *this;
 	}
-	Fraction& operator++(int value)
+	Fraction operator++(int)
 	{
-		Fraction newThis = *this;
-		this->integer++;
-		return newThis;
+		Fraction old = *this;
+		integer++;
+		return old;
 	}
 	Fraction& operator--()
 	{
@@ -267,28 +272,13 @@ public:
 		this->integer--;
 		return newThis;
 	}
-	bool operator ==(const Fraction& other)
+	/*bool operator ==(const Fraction& other)
 	{
 		Fraction copyThis=*this;
 		Fraction copyOther = other;
 		copyThis.to_improper();
 		copyOther.to_improper();
 		if ((copyThis.GetNumerator()*copyOther.GetDenominator())==(copyOther.GetNumerator()*copyThis.GetDenominator()))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	bool operator !=(const Fraction& other)
-	{
-		Fraction copyThis = *this;
-		Fraction copyOther = other;
-		copyThis.to_improper();
-		copyOther.to_improper();
-		if ((copyThis.GetNumerator() * copyOther.GetDenominator()) != (copyOther.GetNumerator() * copyThis.GetDenominator()))
 		{
 			return true;
 		}
@@ -312,6 +302,21 @@ public:
 			return false;
 		}
 	
+	}
+	bool operator !=(const Fraction& other)
+	{
+		Fraction copyThis = *this;
+		Fraction copyOther = other;
+		copyThis.to_improper();
+		copyOther.to_improper();
+		if ((copyThis.GetNumerator() * copyOther.GetDenominator()) != (copyOther.GetNumerator() * copyThis.GetDenominator()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	bool operator <=(const Fraction& other) 
 	{
@@ -358,7 +363,7 @@ public:
 		{
 			return false;
 		}
-	}
+	}*/
 };
 
 //Operators oveldoad outside class
@@ -441,8 +446,27 @@ Fraction operator/(Fraction left, Fraction right)
 	);*/
 
 }
+//Comparison operators
+bool operator ==(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	/*if (left.GetNumerator()*right.GetDenominator()==right.GetNumerator()*left.GetDenominator())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}*/
+	return left.GetNumerator() * right.GetDenominator() == right.GetNumerator() * left.GetDenominator();
+}
+bool operator !=(const Fraction& left, const Fraction& right)
+{
+	return !(left==right);
 
-//#define arithmetical_operator
+}
+
 void main()
 {
 	setlocale(LC_ALL, "ru");
@@ -463,8 +487,8 @@ void main()
 #endif // CONSTRUCTORS_CHECK
 #ifdef arithmetical_operators
 	Fraction A(11, 4);
-<<<<<<< HEAD
-	Fraction B(5, 6, 7);
+	<<<<<< < HEAD
+		Fraction B(5, 6, 7);
 	cout << DELIMITER << endl;
 	Fraction C = A * B;
 	cout << C << endl;
@@ -474,9 +498,9 @@ void main()
 	cout << DELIMITER << endl;
 	cout << A / B << endl;
 #endif // arithmetical_operators
-
-	Fraction A(11,4);
-	Fraction B(5,6,7);
+#ifdef COMPAUND_ASSIGNMENTS
+	Fraction A(11, 4);
+	Fraction B(5, 6, 7);
 	cout << A << endl;
 	cout << B << endl;
 	A *= B;
@@ -485,3 +509,56 @@ void main()
 	cout << A << endl;
 	cout << A - A << endl;
 }
+#endif // COMPAUND_ASSIGNMENTS
+#ifdef INCREMENT_CHECK
+for (double i = .3; i < 10; i++)
+{
+	cout << i << tab;
+
+}
+cout << endl;
+for (Fraction i(3, 4); i < 10; i++)
+{
+	cout << i << tab;
+
+}
+cout << endl;
+#endif // INCREMENT_CHECK
+#ifdef COMPARISON_OPERATORS
+Fraction A(1, 2);
+Fraction B(5, 10);
+cout << A << endl;
+cout << B << endl;
+/*cout << (A == B) << endl;
+if (A==B)
+{
+	cout << "Дроби равны" << endl;
+}
+else
+{
+	cout<< "Дроби разные" << endl;
+}*/
+cout << (A == B) << endl;
+cout << (Fraction(1, 2) != Fraction(5, 11)) << endl;
+cout << DELIMITER << endl;
+cout << A << endl;
+cout << B << endl;
+#endif // COMPARISON_OPERATORS
+#ifdef TYPE_CONVERSION
+	int a = 43;
+	//явное преобразование типов - explicit conversion
+	cout << (char)a << endl; //C-like style
+	cout << char(a) << endl; //Function style
+
+	//неявное преобразование - implicit conversion
+	double b = 3.5;
+	cout<<typeid(a + b).name(); 
+
+
+#endif // TYPE_CONVERSION
+
+
+
+
+}
+
