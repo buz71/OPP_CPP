@@ -6,7 +6,7 @@ using std::cin;
 using std::endl;
 #define DELIMITER "\n---------------------------------------\n"
 #define tab "\t"
-//#define DEBUG
+#define DEBUG
 //#define arithmetical_operator
 //#define CONSTRUCTORS_CHECK
 //#define COMPAUND_ASSIGNMENTS
@@ -104,13 +104,13 @@ public:
 #endif // DEBUG
 
 	}
-	Fraction(int integer) //Sinagle argument constructor
+	explicit Fraction(int integer) //Sinagle argument constructor
 	{
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
 #ifdef DEBUG
-		cout << "SingleIntegerConstructor: " << this << endl;
+		cout << "SingleArgumentConstructor: " << this << endl;
 #endif // DEBUG
 
 	}
@@ -364,6 +364,17 @@ public:
 			return false;
 		}
 	}*/
+
+	//Type cast operators;
+	operator int()const 
+	{
+		return integer;
+	}
+	explicit operator double()const 
+	{
+		return integer+(double)numerator/denominator;
+	}
+
 };
 
 //Operators oveldoad outside class
@@ -545,16 +556,22 @@ cout << A << endl;
 cout << B << endl;
 #endif // COMPARISON_OPERATORS
 #ifdef TYPE_CONVERSION
-	int a = 43;
-	//явное преобразование типов - explicit conversion
-	cout << (char)a << endl; //C-like style
-	cout << char(a) << endl; //Function style
+	//int a = 43;
+	////явное преобразование типов - explicit conversion
+	//cout << (char)a << endl; //C-like style
+	//cout << char(a) << endl; //Function style
 
-	//неявное преобразование - implicit conversion
-	double b = 3.5;
-	cout<<typeid(a + b).name(); 
+	////неявное преобразование - implicit conversion
+	//double b = 3.5;
+	//cout<<typeid(a + b).name(); 
 
-
+	Fraction A (5); //explicit constructor можно вызвать только так и невозможно вызвать оператором "="
+	cout << A << endl;
+	A = (Fraction)8;
+	cout << A << endl;
+	Fraction B (3, 4, 5);
+	double b = B;
+	cout <<b<< endl;
 #endif // TYPE_CONVERSION
 
 
