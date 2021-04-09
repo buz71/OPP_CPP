@@ -6,7 +6,7 @@ using std::cin;
 using std::endl;
 #define DELIMITER "\n---------------------------------------\n"
 #define tab "\t"
-#define DEBUG
+//#define DEBUG
 //#define arithmetical_operator
 //#define CONSTRUCTORS_CHECK
 //#define COMPAUND_ASSIGNMENTS
@@ -113,6 +113,15 @@ public:
 		cout << "SingleArgumentConstructor: " << this << endl;
 #endif // DEBUG
 
+	}
+	Fraction(double decimal)
+	{
+		decimal += 1e-15;
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9; //1000000000
+		numerator = decimal * denominator;
+		reduce();
 	}
 	Fraction(int numerator,int denominator)
 	{
@@ -560,11 +569,9 @@ cout << B << endl;
 	////явное преобразование типов - explicit conversion
 	//cout << (char)a << endl; //C-like style
 	//cout << char(a) << endl; //Function style
-
 	////неявное преобразование - implicit conversion
 	//double b = 3.5;
 	//cout<<typeid(a + b).name(); 
-
 	Fraction A (5); //explicit constructor можно вызвать только так и невозможно вызвать оператором "="
 	cout << A << endl;
 	A = (Fraction)8;
@@ -572,9 +579,11 @@ cout << B << endl;
 	Fraction B (3, 4, 5);
 	double b = B;
 	cout <<b<< endl;
+	Fraction C = 2.55;
+	cout << C << endl;
 #endif // TYPE_CONVERSION
 
-
+	
 
 
 }
