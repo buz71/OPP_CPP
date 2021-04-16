@@ -6,6 +6,9 @@ using std::cout;
 using std::endl;
 #define DELIMITER "\n--------------------------------------------\n"
 
+class String;
+String operator+(const String& left, const String& right);
+
 class String
 {
 private:
@@ -45,12 +48,24 @@ public:
 		strcpy(this->str, other.str);
 		cout << "CopyCtor:\t" << this << endl;
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		cout << "MoveCtor:\t" << this << endl;
+	}
 	~String()
 	{
 		delete this->str;
 		cout << "Destructor:\t\t" << this << endl;
 	}
 	//Operators
+	String& operator+=(const String& other) 
+	{
+		return *this = *this + other;
+	
+	}
 	String& operator=(const String& other)
 	{
 		//0) Проверить не является ли другой объект нашим объектом
@@ -63,6 +78,23 @@ public:
 		strcpy(this->str, other.str);
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
+	}
+	String& operator=(String&& other)
+	{
+		delete[]this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		cout << "MoveAssignment:\t\t" << this << endl;
+		return *this;
+	}
+	const char& operator[](int index)const
+	{
+		return this->str[index];
+	}
+	char& operator[](int index)
+	{
+		return this->str[index];
 	}
 	//Methods
 	void print()const
@@ -90,9 +122,10 @@ String operator+(const String& left, const String& right )
 	return result;
 }
 
+
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
-
+	
 void main()
 {
 	setlocale(LC_ALL, "RU");
@@ -120,10 +153,7 @@ void main()
 	String str1 = "Hello";
 	String str2 = "World";
 	cout << DELIMITER << endl;
-	String str3 = str1 +str2; //Оператор + будет выполнять конкатенацию (слияние) строк
+	String str3 = str1 + str2; //Оператор + будет выполнять конкатенацию (слияние) строк
 	cout << DELIMITER << endl;
 	cout << str3 << endl;
-
-
-
 }
