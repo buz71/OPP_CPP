@@ -4,6 +4,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 typedef unsigned int uint;
+#define DEBUG
 //Classes
 class Human
 {
@@ -34,14 +35,15 @@ public:
 	}
 	void set_age(uint age) //так же можно передать по константной ссылке
 	{
-		if (age >= 15 && age <= 100)
+		/*if (age >= 15 && age <= 100)
 		{
 			this->age = age;
 		}
 		else
 		{
 			this->age = 0;
-		}
+		}*/
+		this->age = age;
 	}
 	//constructors
 	Human(const string& last_name, const string& first_name, uint age)
@@ -49,20 +51,23 @@ public:
 		set_last_name(last_name);
 		set_first_name(first_name);
 		set_age(age);
+#ifdef DEBUG
 		cout << "HumanCtor: \t" << this << endl;
+#endif // DEBUG
+
 	}
-	~Human()
+	virtual ~Human()
 	{
+#ifdef DEBUG
 		cout << "Destructor: \t" << this << endl;
+#endif // DEBUG
+
 	}
 	//Methods
-	void info()const
+	virtual void info()const
 	{
 		cout << last_name << " " << first_name << ", " << age << " лет" << endl;
 	}
-
-
-
 };
 class Student:public Human
 {
@@ -120,41 +125,45 @@ public:
 		set_specialty(specialty);
 		set_ratting(ratting);
 		set_semester(semester);
+#ifdef DEBUG
 		cout << "StudentCtor: \t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Student()
 	{
+#ifdef DEBUG
 		cout << "StudentDestr: \t" << this << endl;
+#endif // DEBUG
+
 	}
 	void info()const
 	{
 		Human::info();
 		cout << "Курс: " << semester << ", Специальность: " << specialty << ", Успеваемость: " << ratting << endl;
 	}
-	
-
 };
 class Teacher:public Human
 {
 private:
 	string specialty;
-	uint expirience;
+	uint experience;
 public:
 	const string& get_specialty()const
 	{
 		return specialty;
 	}
-	uint get_expirience()const
+	uint get_experience()const
 	{
-		return expirience;
+		return experience;
 	}
 	void set_specialty(const string& specialty)
 	{
 		this->specialty = specialty;
 	}
-	void set_expirience(uint expirience)
+	void set_experience(uint expirience)
 	{
-		this->expirience = expirience;
+		this->experience = expirience;
 	}
 //Constructors
 	Teacher(const string& last_name, const string& first_name, uint age,
@@ -162,91 +171,115 @@ public:
 		:Human(last_name,first_name,age)
 	{
 		set_specialty(specialty);
-		set_expirience(expirience);
+		set_experience(expirience);
+#ifdef DEBUG
 		cout << "TeacherCtor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Teacher()
 	{
-		cout << "TeacherDestructor:\t" << this << endl;
+#ifdef DEBUG
+			cout << "TeacherDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 //Methods
 	void info() const
 	{
 		Human::info();
-		cout <<"Специальность: " << specialty << ", Стаж: " << expirience <<", лет"<< endl;
-
-
+		cout <<"Специальность: " << specialty << ", Стаж: " << experience <<", лет"<< endl;
 	}
-		
 };
 class Graduate:public Student
 {
 private:
-	string topicOfProject;
-	uint graduationYear;
+	string topic;
 public:
-	string get_topicOfProject() const
+	string get_topic() const
 	{
-		return topicOfProject;
+		return topic;
 	}
-	uint get_graduaitionYear()const
+
+	void set_topic(const string& topic)
 	{
-		return graduationYear;
+		this->topic = topic;
 	}
-	void set_topicOfProject(const string& topicOfProject)
-	{
-		this->topicOfProject = topicOfProject;
-	}
-	void set_graduationYear(uint graduationYear)
-	{
-		if (graduationYear>=1990)
-		{
-			this->graduationYear = graduationYear;
-		}
-		else
-		{
-			this->graduationYear = 1990;
-		}
-	}
+	
 //Constructor
 	Graduate(const string& last_name, const string& first_name, uint age,
 		const string& specialty, double ratting, uint semester,
-		const string& topicOfProject, uint graduationYear) :
-		Student(last_name, first_name, age, specialty, ratting, semester)
+		const string& topic) :
+		Student(last_name, first_name, age, 
+				specialty, ratting, semester)
 	{
-		set_topicOfProject(topicOfProject);
-		set_graduationYear(graduationYear);
+		set_topic(topic);
+#ifdef DEBUG
 		cout << "GraduateCtor:\t" << this << endl;
+#endif // DEBUG
 
 	};
 	~Graduate()
 	{
-		cout << "GraduateDestructor:\t" << this << endl;
+#ifdef DEBUG
+			cout << "GraduateDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 //Method
 	void info()const
 	{
 		Student::info();
-		cout << "Тема дипломного проекта: " << topicOfProject << ", Год выпуска: " << graduationYear << endl;
+		cout << "Тема дипломного проекта: " << topic << endl;
 	}
 
 };
 #define DELIMITER "----------------------------------------------"
-#define homework_check
+
+//#define inheritance_basics
 void main()
 {
 	setlocale(LC_ALL, "RU");
-	/*Student vasily("Тупенко", "Василий", 18, "Программирование", 4.2, 1);
-	vasily.info();*/
-#ifdef homework_check
-	Teacher ivanovna("Мария", "Ивановна", 36, "Физика", 10);
-	ivanovna.info();
+#ifdef inheritance_basics
+	Student vasily("Тупенко", "Василий", 18, "Программирование", 4.2, 1);
+	vasily.info();
+	Teacher teacher("Einstein", "Albert", 142, "Astronomy", 120);
+	teacher.info();
 	cout << DELIMITER << endl;
-	Graduate andrei("Петров", "Андрей", 18, "Промышленная теплоэнергетика", 5.0, 5, "Проектирование котельной", 2025);
-	andrei.info();
+	Graduate grad("Pinkman", "Jessy", 25, "Chemistry", 5, 5, "Drug Dealer");
+	grad.info();
 	cout << DELIMITER << endl;
+	Human* p_vasily = &vasily;
+	Human* p_teacher = &teacher;
+	Human* p_grad = &grad;
+	Human* group[] =
+	{
+		&vasily,
+		&teacher,
+		&grad
+	}; 
+#endif // inheritance_basics
 
-#endif // teacher_check
+
+	Human* group[] =
+	{
+		new Student("Тупенко", "Василий", 18, "Программирование", 4.2, 1),
+		new Student("Пилипенко", "Евгений", 25, "Программирование", 4.5, 2),
+		new Teacher("Einstein", "Albert", 142, "Astronomy", 120),
+		new Student("Montana", "Antonio", 30, "Cocaine dealer", 4.8, 4),
+		new Graduate("Pinkman", "Jessy", 25, "Chemistry", 5, 5, "Drug Dealer")
+	};
+
+	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++)
+	{
+		group[i]->info();
+		cout << DELIMITER << endl;
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		delete group[i];
+	}
 
 
 }
