@@ -128,18 +128,125 @@ public:
 	}
 	void info()const
 	{
+		Human::info();
 		cout << "Курс: " << semester << ", Специальность: " << specialty << ", Успеваемость: " << ratting << endl;
 	}
 	
 
 };
+class Teacher:public Human
+{
+private:
+	string specialty;
+	uint expirience;
+public:
+	const string& get_specialty()const
+	{
+		return specialty;
+	}
+	uint get_expirience()const
+	{
+		return expirience;
+	}
+	void set_specialty(const string& specialty)
+	{
+		this->specialty = specialty;
+	}
+	void set_expirience(uint expirience)
+	{
+		this->expirience = expirience;
+	}
+//Constructors
+	Teacher(const string& last_name, const string& first_name, uint age,
+		const string& specialty, uint expirience)
+		:Human(last_name,first_name,age)
+	{
+		set_specialty(specialty);
+		set_expirience(expirience);
+		cout << "TeacherCtor:\t" << this << endl;
+	}
+	~Teacher()
+	{
+		cout << "TeacherDestructor:\t" << this << endl;
+	}
+//Methods
+	void info() const
+	{
+		Human::info();
+		cout <<"Специальность: " << specialty << ", Стаж: " << expirience <<", лет"<< endl;
 
+
+	}
+		
+};
+class Graduate:public Student
+{
+private:
+	string topicOfProject;
+	uint graduationYear;
+public:
+	string get_topicOfProject() const
+	{
+		return topicOfProject;
+	}
+	uint get_graduaitionYear()const
+	{
+		return graduationYear;
+	}
+	void set_topicOfProject(const string& topicOfProject)
+	{
+		this->topicOfProject = topicOfProject;
+	}
+	void set_graduationYear(uint graduationYear)
+	{
+		if (graduationYear>=1990)
+		{
+			this->graduationYear = graduationYear;
+		}
+		else
+		{
+			this->graduationYear = 1990;
+		}
+	}
+//Constructor
+	Graduate(const string& last_name, const string& first_name, uint age,
+		const string& specialty, double ratting, uint semester,
+		const string& topicOfProject, uint graduationYear) :
+		Student(last_name, first_name, age, specialty, ratting, semester)
+	{
+		set_topicOfProject(topicOfProject);
+		set_graduationYear(graduationYear);
+		cout << "GraduateCtor:\t" << this << endl;
+
+	};
+	~Graduate()
+	{
+		cout << "GraduateDestructor:\t" << this << endl;
+	}
+//Method
+	void info()const
+	{
+		Student::info();
+		cout << "Тема дипломного проекта: " << topicOfProject << ", Год выпуска: " << graduationYear << endl;
+	}
+
+};
+#define DELIMITER "----------------------------------------------"
+#define homework_check
 void main()
 {
 	setlocale(LC_ALL, "RU");
-	//Human vasily("Тупенко", "Василий", 18);
-	//vasily.info();
-	Student vasily("Тупенко", "Василий", 18, "Программирование", 4.2, 1);
-	vasily.info();
+	/*Student vasily("Тупенко", "Василий", 18, "Программирование", 4.2, 1);
+	vasily.info();*/
+#ifdef homework_check
+	Teacher ivanovna("Мария", "Ивановна", 36, "Физика", 10);
+	ivanovna.info();
+	cout << DELIMITER << endl;
+	Graduate andrei("Петров", "Андрей", 18, "Промышленная теплоэнергетика", 5.0, 5, "Проектирование котельной", 2025);
+	andrei.info();
+	cout << DELIMITER << endl;
+
+#endif // teacher_check
+
 
 }
