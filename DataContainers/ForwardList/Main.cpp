@@ -24,6 +24,7 @@ class List
 {
 private:
 	Element* Head; //Указатель на начальный элемент списка
+	int size = 0;
 public:
 	List()
 	{
@@ -41,6 +42,17 @@ public:
 		New->pNext = Head;
 		Head = New;
 	};
+	void push_back(int Data)
+	{
+		Element* New = new Element(Data);
+		Element* Temp = Head;
+		while (Temp->pNext!=nullptr)
+		{
+			Temp = Temp->pNext;
+		}
+		Temp->pNext = New;
+		
+	}
 	//Methods
 	void print()const
 	{
@@ -52,7 +64,7 @@ public:
 		// Итератор - это указатель, при  помощи которого можно получить доступ к элементам структуры данных.
 		while (Temp!=nullptr)
 		{
-			cout << Temp << tab << Temp->Data << Temp->pNext << endl;
+			cout <<"Адрес: " <<Temp << tab <<"Data: "<< Temp->Data << tab <<"pNext: "<< Temp->pNext << endl;
 			Temp = Temp->pNext; //переход на следующий элемент
 		}
 	}
@@ -68,5 +80,8 @@ void main()
 	{
 		list.push_front(rand() % 100);
 	}
+	list.print();
+	cout << "Push_Back" << endl;
+	list.push_back(rand() % 100);
 	list.print();
 }
