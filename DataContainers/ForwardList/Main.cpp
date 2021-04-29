@@ -109,6 +109,28 @@ public:
 		Temp->pNext = nullptr;
 		size--;
 	}
+	void erase(int index)
+	{
+		if (index==0)
+		{
+			pop_front();
+			return;
+		}
+		if (index>=size)
+		{
+			//pop_back();
+			return;
+		}
+		Element* Temp = Head;
+		for (int i = 0; i < index-1; i++)
+		{
+			Temp = Temp->pNext;
+		}
+		Element* Buf = Temp->pNext->pNext;
+		delete Temp->pNext;
+		Temp->pNext=Buf;
+		size--;
+	}
 	//Methods
 	void print()const
 	{
@@ -144,7 +166,8 @@ void main()
 	cout << delimiter << endl;
 	list.print();
 	cout << delimiter << endl;
-	list.pop_back();
+	cout << "Введите индекс: "; cin >> index;
+	list.erase(index);
 	list.print();
 
 
