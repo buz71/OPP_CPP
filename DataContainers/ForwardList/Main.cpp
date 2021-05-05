@@ -13,6 +13,18 @@ private:
 	Element* pNext; //Указатель на слудующий элемент
 	static int count;
 public:
+	Element* get_pNext()
+	{
+		return pNext;
+	}
+	int get_Data()
+	{
+		return Data;
+	}
+	void set_pNext(Element* pNext)
+	{
+		this->pNext = pNext;
+	}
 	Element(int Data,Element* pNext = nullptr):Data(Data),pNext(pNext)
 	{
 		count++;
@@ -32,6 +44,10 @@ private:
 	uint size;
 	Element* Head; //Указатель на начальный элемент списка
 public:
+	Element* get_Head()
+	{
+		return Head;
+	}
 	ForwardList()
 	{
 		
@@ -167,6 +183,20 @@ public:
 		cout << "Общее кол-во элементов: " << Element::count << endl;
 	}
 };
+
+//Operators overload
+ForwardList operator+(ForwardList left,ForwardList right)
+{
+	ForwardList result=left;
+	Element* Temp = right.get_Head();
+	while (Temp)
+	{
+		result.push_back(Temp->get_Data());
+		Temp = Temp->get_pNext();
+	}
+	return result;
+}
+
 //#define adding_elements_check
 void main()
 {
@@ -188,6 +218,13 @@ void main()
 	ForwardList list2 = list;
 	list2.print();
 	cout << delimiter << endl;
+	cout << delimiter << endl;
+	ForwardList list3 = list + list2;
+	cout << "Список 3" << endl;
+	list3.print();
+	cout << delimiter << endl;
+
+
 
 
 #ifdef adding_elements_check
