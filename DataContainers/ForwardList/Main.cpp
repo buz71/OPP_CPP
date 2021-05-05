@@ -34,12 +34,30 @@ private:
 public:
 	ForwardList()
 	{
+		
 		this->size = 0;
 		this->Head = nullptr;
 		cout << "ListCtor:\t" << this << endl;
 	}
+	ForwardList(const ForwardList& other)
+	{
+		this->Head = nullptr;
+		Element* Temp = other.Head;
+		while (Temp!=nullptr)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "CopyCtor" << this << endl;
+	}
 	~ForwardList()
 	{
+		Element* Temp = Head;
+		while (Temp)
+		{
+			Temp = Temp->pNext;
+			pop_front();
+		}
 		cout << "ListDeCtor:\t" << this << endl;
 	}
 	//Adding elements:
@@ -166,9 +184,10 @@ void main()
 	cout << delimiter << endl;
 	list.print();
 	cout << delimiter << endl;
-	cout << "Введите индекс: "; cin >> index;
-	list.erase(index);
-	list.print();
+	cout << delimiter << endl;
+	ForwardList list2 = list;
+	list2.print();
+	cout << delimiter << endl;
 
 
 #ifdef adding_elements_check
