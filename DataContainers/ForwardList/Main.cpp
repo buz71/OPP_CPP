@@ -64,7 +64,19 @@ public:
 			push_back(Temp->Data);
 			Temp = Temp->pNext;
 		}
-		cout << "CopyCtor" << this << endl;
+		cout << "CopyCtor:\t" << this << endl;
+	}
+	ForwardList(ForwardList&& other)
+	{
+		this->Head = nullptr;
+		Element* Temp = other.Head;
+		while (Temp != nullptr)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "MoveCtor:\t" << this << endl;
+
 	}
 	~ForwardList()
 	{
@@ -165,6 +177,29 @@ public:
 		Temp->pNext=Buf;
 		size--;
 	}
+	//Operators overload
+	//Совсем запутался с этими методами, так что не работают.
+	ForwardList& operator=(const ForwardList& other)
+	{
+		Element* Temp = other.Head;
+		while (Temp != nullptr)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "CopyAssignment:\t" << this << endl;
+	}
+	ForwardList& operator=(ForwardList&& other)
+	{
+		Element* Temp = other.Head;
+		while (Temp != nullptr)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "MoveAssignment:\t" << this << endl;
+
+	}
 	//Methods
 	void print()const
 	{
@@ -205,6 +240,9 @@ void main()
 	int value;
 	int index;
 	cout << "Введите размер списка: "; cin >> n;
+	cout << delimiter << endl;
+	cout << "Список 1" << endl;
+	cout << delimiter << endl;
 	ForwardList list;
 	for (int i = 0; i < n; i++)
 	{
@@ -212,15 +250,20 @@ void main()
 		list.push_back((rand() % 100) + 10);
 	}
 	cout << delimiter << endl;
+	cout << delimiter << endl;
 	list.print();
 	cout << delimiter << endl;
+	cout << "Список 2" << endl;
 	cout << delimiter << endl;
 	ForwardList list2 = list;
+	cout << delimiter << endl;
+	cout << delimiter << endl;
 	list2.print();
 	cout << delimiter << endl;
+	cout << "Список 3" << endl;
 	cout << delimiter << endl;
 	ForwardList list3 = list + list2;
-	cout << "Список 3" << endl;
+	cout << delimiter << endl;
 	list3.print();
 	cout << delimiter << endl;
 
