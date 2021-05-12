@@ -25,7 +25,7 @@ public:
 	{
 		this->pNext = pNext;
 	}
-	Element(int Data,Element* pNext = nullptr):Data(Data),pNext(pNext)
+	explicit Element(int Data,Element* pNext = nullptr):Data(Data),pNext(pNext)
 	{
 		count++;
 		cout << "ECtor:\t" << this << endl;
@@ -48,7 +48,7 @@ public:
 	{
 		return Head;
 	}
-	ForwardList()
+	explicit ForwardList()
 	{
 		
 		this->size = 0;
@@ -68,8 +68,8 @@ public:
 	}
 	ForwardList(ForwardList&& other)
 	{
-		this->Head = nullptr;
 		Element* Temp = other.Head;
+		other.Head = nullptr;
 		while (Temp != nullptr)
 		{
 			push_back(Temp->Data);
@@ -178,7 +178,7 @@ public:
 		size--;
 	}
 	//Operators overload
-	//Совсем запутался с этими методами, так что не работают.
+	//Совсем запутался с этими методами.
 	ForwardList& operator=(const ForwardList& other)
 	{
 		Element* Temp = other.Head;
@@ -192,6 +192,7 @@ public:
 	ForwardList& operator=(ForwardList&& other)
 	{
 		Element* Temp = other.Head;
+		other.Head = nullptr;
 		while (Temp != nullptr)
 		{
 			push_back(Temp->Data);
