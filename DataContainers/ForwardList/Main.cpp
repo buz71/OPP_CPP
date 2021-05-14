@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <stdarg.h>
 using namespace std;
 using std::cout;
 using std::cin;
@@ -10,7 +11,7 @@ class Element
 {
 private:
 	int Data; //Значение элемента
-	Element* pNext; //Указатель на слудующий элемент
+	Element* pNext; //Указатель на следующий элемент
 	static int count;
 public:
 	Element* get_pNext()
@@ -54,6 +55,21 @@ public:
 		this->size = 0;
 		this->Head = nullptr;
 		cout << "ListCtor:\t" << this << endl;
+	}
+	//в процессе разработки
+	ForwardList(int data,...)
+	{
+		
+		this->size = 0;
+		this->Head = nullptr;
+		va_list arg;
+		va_start(arg, data);
+		for (int i = 0; i < data; i++)
+		{
+			push_back(va_arg(arg, int));
+		}
+		cout << "ArrCtor:\t" << this << endl;
+		va_end(arg);
 	}
 	ForwardList(const ForwardList& other)
 	{
@@ -266,6 +282,12 @@ void main()
 	ForwardList list3 = list + list2;
 	cout << delimiter << endl;
 	list3.print();
+	ForwardList list4 = { 0,0,0 };
+	cout << delimiter << endl;
+	cout << delimiter << endl;
+	cout << "Список 4" << endl;
+	list4.print();
+	cout << delimiter << endl;
 	cout << delimiter << endl;
 
 
