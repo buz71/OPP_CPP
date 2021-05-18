@@ -6,7 +6,7 @@ using std::cin;
 using std::endl;
 #define tab "\t"
 #define DELIMITER "---------------------------------------------------"
-#define DEBUG
+//#define DEBUG
 typedef unsigned int uint;
 class Element
 {
@@ -74,12 +74,18 @@ public:
 	}
 	ForwardList(const std::initializer_list<int>&il):ForwardList()
 	{
+#ifdef DEBUG
 		cout << typeid(il.begin()).name() << endl;
+#endif // DEBUG
+
 		for (const int* it = il.begin(); it != il.end(); it++)
 		{
 			push_back(*it);
 		}
+#ifdef DEBUG
 		cout << "IlCtor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	ForwardList(const ForwardList& other):ForwardList() //copyCtor
 	{
@@ -272,6 +278,15 @@ public:
 		cout << "MoveAssignment:\t" << this << endl;*/
 
 	}
+	int& operator[](int index)
+	{
+		Element* Temp = Head;
+		for (int count = 0; count < index; count++)
+		{
+			Temp = Temp->pNext;
+		}
+		return Temp->Data;
+	}
 	//Methods
 	void print()const
 	{
@@ -300,7 +315,10 @@ ForwardList operator+(const ForwardList left, const ForwardList right)
 		result.push_back(Temp->get_Data());
 	}
 	return result;
+#ifdef DEBUG
 	cout << "PlusOptor" << endl;
+#endif // DEBUG
+
 	//Мой метод
 	/*ForwardList result = left;
 	Element* Temp = right.get_head();
@@ -311,6 +329,7 @@ ForwardList operator+(const ForwardList left, const ForwardList right)
 	}
 	return result;*/
 }
+
 
 //#define adding_elements_check
 //#define HOMEWORK
@@ -392,7 +411,8 @@ void main()
 #endif // OPERATOR_PLUS_CHECK
 #ifdef HARDCORE
 	ForwardList list = { 3,5,8,13,21 };
-	list.print();
+	//list.print();
+	cout<<list[4];
 #endif // HARDCORE
 #ifdef adding_elements_check
 	cout << "Push_Front" << endl;
