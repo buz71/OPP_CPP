@@ -44,9 +44,64 @@ public:
 
 	}
 	friend class ForwardList; 
+	friend class Iterator;
 	friend ForwardList operator+(const ForwardList left, const ForwardList right);
 };
 int Element::count = 0;
+
+class Iterator
+{
+private:
+	Element* Temp;
+public:
+	Iterator(Element* Temp = nullptr) :Temp(Temp)
+	{
+#ifdef DEBUG
+		cout << "ICtor:\t" << this << endl;
+#endif // DEBUG
+
+	}
+	~Iterator()
+	{
+#ifdef DEBUG
+		cout << "IDeCtor:\t" << this << endl;
+#endif // DEBUG
+
+	}
+	//operators overload
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+	Iterator& operator++(int)
+	{
+		Iterator old = *this;
+		Temp = Temp->pNext;
+		return old;
+	}
+	bool operator==(const Iterator& other)const
+	{
+		return this->Temp == other.Temp;
+	}
+	bool operator!=(const Iterator& other)const
+	{
+		return this->Temp != other.Temp;
+	}
+	const int& operator*()const
+	{
+		return Temp->Data;
+	}
+	const Element* operator->()const
+	{
+		return Temp;
+	}
+	Element* operator->()
+	{
+		return Temp;
+	}
+};
+
 class ForwardList
 {
 private:
@@ -60,6 +115,15 @@ public:
 	const Element* get_head() const
 	{
 		return Head;
+	}
+	//Methods
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
 	}
 	//Constructors
 	explicit ForwardList()
@@ -82,11 +146,14 @@ public:
 		{
 			push_back(*it);
 		}
+		/*for (int i : il)
+		{
+			push_back(i);
+		}*/
+	}
 #ifdef DEBUG
 		cout << "IlCtor:\t" << this << endl;
 #endif // DEBUG
-
-	}
 	ForwardList(const ForwardList& other):ForwardList() //copyCtor
 	{
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
@@ -280,6 +347,7 @@ public:
 	}
 	int& operator[](int index)
 	{
+		if (index >= size)throw std::exception("Out of range"); // Бросить исключение
 		Element* Temp = Head;
 		for (int count = 0; count < index; count++)
 		{
@@ -296,16 +364,20 @@ public:
 		Element* Temp = Head;
 		//Temp - это итератор
 		// Итератор - это указатель, при  помощи которого можно получить доступ к элементам структуры данных.
-		while (Temp != nullptr)
+		//while (Temp != nullptr)
+		//{
+		//	cout << "Адрес: " << Temp << tab << "Data: " << Temp->Data << tab << "pNext: " << Temp->pNext << endl;
+		//	Temp = Temp->pNext; //переход на следующий элемент
+		//}
+		for (Iterator Temp = Head; Temp !=nullptr; Temp++)
 		{
-			cout << "Адрес: " << Temp << tab << "Data: " << Temp->Data << tab << "pNext: " << Temp->pNext << endl;
-			Temp = Temp->pNext; //переход на следующий элемент
+			cout << *Temp << tab;
+			//cout << "Адрес: " << Temp << tab << "Data: " << Temp->Data << tab << "pNext: " << Temp->pNext << endl;
 		}
 		cout << "В списке " << size << " элементов\n";
 		cout << "Общее кол-во элементов: " << Element::count << endl;
 	}
 };
-
 //Operators overload
 ForwardList operator+(const ForwardList left, const ForwardList right)
 {
@@ -330,10 +402,10 @@ ForwardList operator+(const ForwardList left, const ForwardList right)
 	return result;*/
 }
 
-
 //#define adding_elements_check
 //#define HOMEWORK
 #define HARDCORE
+//#define EXCEPTION
 //#define COPYMETHODS_CHECK
 //#define OPERATOR_PLUS_CHECK
 void main()
@@ -410,9 +482,31 @@ void main()
 	cout << DELIMITER << endl;
 #endif // OPERATOR_PLUS_CHECK
 #ifdef HARDCORE
+#ifdef EXCEPTION
 	ForwardList list = { 3,5,8,13,21 };
-	//list.print();
-	cout<<list[4];
+	try
+	{
+		for (int i = 0; i < list.get_size(); i++)
+		{
+			list[i] = rand() % 100;
+		}
+
+		for (int i = 0; i < list.get_size(); i++)
+		{
+			cout << list[i] << tab;
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << endl; //метод what() возвращает сообщение об ошибке
+	}
+#endif // EXCEPTION
+	ForwardList list = { 3,5,8,13,21 };
+	for (int i : list) //range-based for
+	{
+		cout << i << tab;
+	}
+	cout << endl;
 #endif // HARDCORE
 #ifdef adding_elements_check
 	cout << "Push_Front" << endl;
