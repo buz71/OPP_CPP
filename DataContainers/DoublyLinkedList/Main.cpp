@@ -33,11 +33,20 @@ public:
 	Element* Head;
 	Element* Tail;
 	uint size;
+//Constructors
 	List()
 	{
 		Head = Tail = nullptr;
 		size = 0;
 		cout << "LCtor:\t" << this << endl;
+	}
+	List(const List& other):List()//copy Ctor
+	{
+		for (Element* Temp = other.Head; Temp ; Temp=Temp->pNext)
+		{
+			PushBack(Temp->Data);
+		}
+		cout << "CopyCtor:\t" << this << endl;
 	}
 	~List()
 	{
@@ -53,6 +62,25 @@ public:
 			PopBack();
 		}
 		cout << "LDeCtor:\t" << this << endl;
+	}
+//Operators overload
+	List& operator=(const List& other)
+	{
+		if (this==&other)
+		{
+			return *this;
+		}
+		while (Head)
+		{
+			PopFront();
+		}
+		for (Element* Temp = other.Head; Temp; Temp=Temp->pNext)
+		{
+			PushBack(Temp->Data);
+		}
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+		
 	}
 //Adding Elements
 	void PushFront(int Data)
@@ -219,19 +247,11 @@ void main()
 		list.PushBack(rand() % 100 + 10);
 	}
 	list.Print();
-	list.PrintRevers();
 	cout << delimiter;
 	cout << delimiter;
-	int index;
-	//int value;
-	cout << "Введите индекс: "; cin >> index;
-	//cout << "Введите значение: "; cin >> value;
-	list.Erase(index);
-	list.Print();
-	cout << delimiter;
-	list.PrintRevers();
-	cout << delimiter;
-	cout << delimiter;
+	List list2;
+	list2 = list;
+	list2.Print();
 	
 
 }
