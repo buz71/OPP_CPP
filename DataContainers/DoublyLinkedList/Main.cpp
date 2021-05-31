@@ -48,7 +48,23 @@ public:
 		}
 		cout << "CopyCtor:\t" << this << endl;
 	}
-	~List()
+	List(List&& other)
+	{
+		this->size = other.size;
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		other.Head = nullptr;
+		other.Tail = nullptr;
+		cout << "MoveCtor:\t" << this <<endl;
+	}
+	List(int size)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			PushFront(NULL);
+		}
+	}
+	~List() //move ctor
 	{
 		// смотря какая функция используется
 
@@ -80,6 +96,28 @@ public:
 		}
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
+		
+	}
+	List& operator=(List&& other)
+	{
+		while (Head)
+		{
+			PopFront();
+		}
+		this->size = other.size;
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		cout << "MovaAssighnment:\t" <<this << endl;
+	}
+	int& operator[](int index)
+	{
+		//if (index >= size)throw std::exception("Out of range");
+		Element* Temp = Head;
+		for (int count  = 0; count < index; count++)
+		{
+			Temp = Temp->pNext;
+		}
+		return Temp->Data;
 		
 	}
 //Adding Elements
@@ -241,17 +279,9 @@ void main()
 	setlocale(LC_ALL, "RU");
 	int n;
 	cout << "Введите размер списка: "; cin >> n;
-	List list;
-	for (int i = 0; i < n; i++)
-	{
-		list.PushBack(rand() % 100 + 10);
-	}
+	List list(n);
 	list.Print();
-	cout << delimiter;
-	cout << delimiter;
-	List list2;
-	list2 = list;
-	list2.Print();
+
 	
 
 }
