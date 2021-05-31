@@ -6,10 +6,10 @@ using std::endl;
 typedef unsigned int uint;
 #define tab "\t"
 #define delimiter "----------------------------------------------------\n";
-
 class List
 {
 public:
+	//inner classes
 	class Element
 	{
 	private:
@@ -29,7 +29,61 @@ public:
 			cout << "EDeCtor:\t" << this << endl;
 		}
 		friend class List;
+		friend List operator+(const List& left, const List& right);
 	};
+	class Iterator
+	{
+	private:
+		Element* Temp;
+	public:
+		Iterator(Element* Temp = nullptr) :Temp(Temp) 
+		{
+			cout << "ItCtor:\t" << this << endl;
+		}
+		~Iterator()
+		{
+			cout << "ItDeCtor:\t" << this << endl;
+		}
+		Iterator& operator++()
+		{
+			Temp = Temp->pNext;
+			return *this;
+		}
+		Iterator operator++(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
+		Iterator& operator--()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		Iterator operator--(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+		bool operator =(const Iterator other)const
+		{
+			return this->Temp==other.Temp;
+		}
+		bool operator!=(const Iterator other)const
+		{
+			return this->Temp != other.Temp;
+		}
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+		const int& operator*() const
+		{
+			return Temp->Data;
+		}
+	};
+	//end of inner classes
 	Element* Head;
 	Element* Tail;
 	uint size;
@@ -48,7 +102,7 @@ public:
 		}
 		cout << "CopyCtor:\t" << this << endl;
 	}
-	List(List&& other)
+	List(List&& other)noexcept //move Ctor
 	{
 		this->size = other.size;
 		this->Head = other.Head;
@@ -57,11 +111,18 @@ public:
 		other.Tail = nullptr;
 		cout << "MoveCtor:\t" << this <<endl;
 	}
-	List(int size)
+	List(int size) //Size Ctor
 	{
 		for (int i = 0; i < size; i++)
 		{
 			PushFront(NULL);
+		}
+	}
+	List(const std::initializer_list<int>& il) :List() 
+	{
+		for (const int* it = il.begin(); it!=il.end() ; it++)
+		{
+			PushBack(*it);
 		}
 	}
 	~List() //move ctor
@@ -79,8 +140,35 @@ public:
 		}
 		cout << "LDeCtor:\t" << this << endl;
 	}
+	const Iterator begin()const
+	{
+		return Head;
+	}
+	Iterator begin()
+	{
+		return Head;
+	}
+	const Iterator end() const
+	{
+		return nullptr;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
 //Operators overload
-	List& operator=(const List& other)
+	List& operator=(List&& other)noexcept //move assignment
+	{
+		while (Head)
+		{
+			PopFront();
+		}
+		this->size = other.size;
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		cout << "MovaAssighnment:\t" <<this << endl;
+	}
+	List& operator=(const List& other) //copy assignment
 	{
 		if (this==&other)
 		{
@@ -97,17 +185,6 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 		
-	}
-	List& operator=(List&& other)
-	{
-		while (Head)
-		{
-			PopFront();
-		}
-		this->size = other.size;
-		this->Head = other.Head;
-		this->Tail = other.Tail;
-		cout << "MovaAssighnment:\t" <<this << endl;
 	}
 	int& operator[](int index)
 	{
@@ -134,6 +211,8 @@ public:
 		Head->pPrev = New;
 		Head = New;
 		size++;
+		//optimization code
+		//Head = Head->pPrev = new Element(Data, Head);
 	}
 	void PushBack(int Data)
 	{
@@ -143,10 +222,13 @@ public:
 			size++;
 			return;
 		}
-		Element* New = new Element(Data);
+		/*Element* New = new Element(Data);
 		New->pPrev = Tail;
 		Tail->pNext = New;
 		Tail = New;
+		size++;*/
+		//optimization code
+		Tail = Tail->pNext = new Element(Data, nullptr, Tail);
 		size++;
 	}
 	void Insert(int Index, int Data)
@@ -186,6 +268,8 @@ public:
 		Temp->pPrev->pNext = New;
 		Temp->pPrev = New;
 		size++;
+		//optimization code
+		//Temp->pPrev = Temp->pPrev->pNext = new Element(Data, Temp, Temp->pPrev);
 	}
 //Delete Elements
 	void PopFront()
@@ -271,16 +355,72 @@ public:
 		}
 		cout << "Количество элементов списка: " << size << endl;
 	}
-
+	friend List operator+(const List& left, const List& right);
+	friend class Iterator;
 };
+
+List operator+(const List& left, const List& right)
+{
+	List result = left;
+	//for (List::Element* Temp = right.Head;Temp;Temp=Temp->pNext)
+	//{
+	//	result.PushBack(Temp->Data);
+	//}
+	for (List::Iterator it = right.begin(); it!=right.end();it++)
+	{
+		result.PushBack(*it);
+	}
+	return result;
+}
+//#define BASE_CHECK
+//#define COPY_METHODS_CHECK
+//#define OPERATOR_PLUS_CHECK
+//#define ITERATOR_CHECK
+
 
 void main()
 {
 	setlocale(LC_ALL, "RU");
+#ifdef BASE_CHECK
 	int n;
 	cout << "Введите размер списка: "; cin >> n;
-	List list(n);
+	List list;
+	for (int i = 0; i < n; i++)
+	{
+		list.PushBack(rand() % 100 + 10);
+	}
 	list.Print();
+#endif // BASE_CHECK
+#ifdef COPY_METHODS_CHECK
+	List list;
+	list.PushBack(3);
+	list.PushBack(5);
+	list.PushBack(8);
+	list.PushBack(13);
+	list.PushBack(21);
+	List list2 = list;
+#endif // COPY_METHODS_CHECK
+#ifdef OPERATOR_PLUS_CHECK
+	List list1 = { 3,5,8,13,21 };
+	List list2 = { 34,55,89 };
+	List list3 = list1 + list2; //move method
+	list3.Print();
+
+#endif // OPERATOR_PLUS_CHECK
+#ifdef ITERATOR_CHECK
+	List list = { 3,5,8,13,21 };
+	for (int i : list)
+	{
+		cout << i << endl;
+	}
+	cout << endl;
+#endif // ITERATOR_CHECK
+
+
+
+
+
+
 
 	
 
