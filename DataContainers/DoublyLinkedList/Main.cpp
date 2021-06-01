@@ -83,6 +83,61 @@ public:
 			return Temp->Data;
 		}
 	};
+	class ReverseIterator
+	{
+	private:
+		Element* Temp;
+	public:
+		ReverseIterator(Element* Temp = nullptr) :Temp(Temp) 
+		{
+		}
+		~ReverseIterator()
+		{
+
+		}
+		ReverseIterator& operator++()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReverseIterator& operator++(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+		ReverseIterator& operator--()
+		{
+			Temp = Temp->pNext;
+			return *this;
+		}
+		ReverseIterator& operator--(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
+		bool operator==(const ReverseIterator& other)const
+		{
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const ReverseIterator& other)const
+		{
+			return this->Temp != other.Temp;
+		}
+		const int& operator*()const
+		{
+			return Temp->Data;
+		}
+		const Element* operator->()const
+		{
+			return Temp;
+		}
+		Element* operator->()
+		{
+			return Temp;
+		}
+	};
 	//end of inner classes
 	Element* Head;
 	Element* Tail;
@@ -156,6 +211,23 @@ public:
 	{
 		return nullptr;
 	}
+	const ReverseIterator rbegin()const
+	{
+		return Tail;
+	}
+	ReverseIterator rbegin()
+	{
+		return Tail;
+	}
+	const Iterator rend() const
+	{
+		return nullptr;
+	}
+	Iterator rend()
+	{
+		return nullptr;
+	}
+
 //Operators overload
 	List& operator=(List&& other)noexcept //move assignment
 	{
@@ -357,6 +429,7 @@ public:
 	}
 	friend List operator+(const List& left, const List& right);
 	friend class Iterator;
+	friend class ReverseIterator;
 };
 
 List operator+(const List& left, const List& right)
@@ -415,7 +488,12 @@ void main()
 	}
 	cout << endl;
 #endif // ITERATOR_CHECK
-
+	List list = { 3,5,8,13,21 };
+	for (int i : list)
+	{
+		cout << i << endl;
+	}
+	cout << endl;
 
 
 
