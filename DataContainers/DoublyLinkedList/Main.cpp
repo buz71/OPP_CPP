@@ -227,7 +227,6 @@ public:
 	{
 		return nullptr;
 	}
-
 //Operators overload
 	List& operator=(List&& other)noexcept //move assignment
 	{
