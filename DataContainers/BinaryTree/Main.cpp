@@ -17,11 +17,11 @@ private:
 	public:
 		Element(int Data, Element* pLeft = nullptr, Element* pRight = nullptr) :Data(Data), pLeft(pLeft), pRight(pRight) 
 		{
-			cout << "ECtor:\t" << this << endl;
+			//cout << "ECtor:\t" << this << endl;
 		}
 		~Element()
 		{
-			cout << "EDector:\t" << this << endl;
+			//cout << "EDector:\t" << this << endl;
 		}
 		friend class Tree;
 		
@@ -139,6 +139,10 @@ public:
 
 		return Root ? Sum(Root->pLeft) + Sum(Root->pRight) + Root->Data : 0;
 	}
+	double AVG(Element* Root)
+	{
+		return (double)Sum(Root) / (double)Size(Root);
+	}
 };
 
 void main()
@@ -156,4 +160,5 @@ void main()
 	cout <<"MinValue: "<< tree.MinValue(tree.GetRoot()) << endl;
 	cout << "MaxValue: " << tree.MaxValue(tree.GetRoot()) << endl;
 	cout << "Sum: " << tree.Sum(tree.GetRoot()) << endl;
+	cout << "AVG: " << tree.AVG(tree.GetRoot()) << endl;
 }
