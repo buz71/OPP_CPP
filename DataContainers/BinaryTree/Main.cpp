@@ -143,6 +143,38 @@ public:
 	{
 		return (double)Sum(Root) / (double)Size(Root);
 	}
+	int Search(int Target, Element* Root)
+	{
+		if (Target == Root->Data)
+		{
+			return Root->Data;
+		}
+		if (Target<Root->Data)
+		{
+			if (Root->pLeft==nullptr)
+			{
+				return Root->Data;
+			}
+
+			Search(Target, Root->pLeft);
+		}
+		else
+		{
+			if (Root->pRight == nullptr)
+			{
+				return Root->Data;
+			}
+			Search(Target, Root->pRight);
+		}
+
+	}
+	void Erase(int Target, Element*Root)
+	{
+		if (Root->pLeft==nullptr&&Root->pRight==nullptr)
+		{
+			delete Root;
+		}
+	}
 };
 
 void main()
@@ -161,4 +193,7 @@ void main()
 	cout << "MaxValue: " << tree.MaxValue(tree.GetRoot()) << endl;
 	cout << "Sum: " << tree.Sum(tree.GetRoot()) << endl;
 	cout << "AVG: " << tree.AVG(tree.GetRoot()) << endl;
+	int target;
+	cout << "Значение для поиска:"; cin >> target;
+	cout << tree.Search(target, tree.GetRoot()) << endl;
 }
