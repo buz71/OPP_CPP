@@ -23,6 +23,10 @@ private:
 		{
 			//cout << "EDector:\t" << this << endl;
 		}
+		bool Is_leaf()const
+		{
+			return pLeft == pRight;
+		}
 		friend class Tree;
 		
 	}*Root;//Указатель типа Element на корневой элемент
@@ -31,17 +35,96 @@ public:
 	{
 		return Root;
 	}
-	Tree():Root(nullptr)
+	Tree() :Root(nullptr)
 	{
 		cout << "TCtor:\t" << this << endl;
+	}
+	Tree(const std::initializer_list<int>& il):Tree()
+	{
+		for (int const* it = il.begin(); it!=il.end(); it++)
+		{
+			Insert(*it);
+		}
+	}
+	Tree(const Tree& other):Tree()
+	{
+		Copy(other.Root);
+		cout << "CopyCtor:\t" << this << endl;
 	}
 	~Tree()
 	{
 		Clear(Root);
 		cout << "TDector:" << this << endl;
 	}
+	Tree& operator=(const Tree& other)
+	{
+		if (this==&other)
+		{
+			return *this;
+		}
+		Clear();
+		Copy(other.Root);
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+	Element* begin()const
+	{
+		return Root;
+	}
+	Element* end()const
+	{
+		return nullptr;
+	}
+//Методы-обертки
+	void Copy(Element* Root)
+	{
+		if (Root==nullptr)
+		{
+			return;
+		}
+		Insert(Root->Data);
+		Copy(Root->pLeft);
+		Copy(Root->pRight);
+	}
+	void Insert(int Data) 
+	{
+		Insert(Data, this->Root);
+	};
+	void Erase(int Data)
+	{
+		Erase(Data, Root);
+	}
+	void Print()
+	{
+		Print(Root);
+		cout << endl;
+	}
+	int MaxValue()
+	{
+		return MaxValue(Root);
+	}
+	int MinValue()
+	{
+		return MinValue(Root);
+	}
+	int Size()
+	{
+		return Size(Root);
+	}
+	int Sum()
+	{
+		return Sum(Root);
+	}
+	double AVG()
+	{
+		return AVG(Root);
+	}
+	void Clear()
+	{
+		Clear(Root);
+	}
 //Methods
-	void Insert(int Data, Element* Root) // Здесь Element* Root - указатель на ветку (поддерево)
+	void Insert(const int &Data, Element* Root) // Здесь Element* Root - указатель на ветку (поддерево)
 	{
 		if (this->Root == nullptr)
 		{
@@ -84,6 +167,40 @@ public:
 			}
 		}
 	}
+	void Erase(const int &Data, Element*& Root)
+	{
+		if (Root == nullptr)return;
+		if (Data==Root->Data)
+		{
+			if (Root->Is_leaf())
+			{
+				delete Root;
+				Root = nullptr;
+			}
+			else
+			{
+				if (Root->pLeft)
+				{
+					Root->Data = MaxValue(Root->pLeft);
+					Erase(MaxValue(Root->pLeft), Root->pLeft);
+				}
+				else
+				{
+					Root->Data = MinValue(Root->pRight);
+					Erase(MinValue(Root->pRight), Root->pRight);
+				}
+			}
+		}
+		if (Root)
+		{
+			Erase(Data, Root->pLeft);
+		}
+		if (Root)
+		{
+			Erase(Data, Root->pRight);
+		}
+
+	}
 	void Print(Element* Root)
 	{
 		if (Root == nullptr)
@@ -94,12 +211,13 @@ public:
 		cout << Root->Data << tab; //в зависимости от положения cout будет разный вывод
 		Print(Root->pRight);
 	}
-	void Clear(Element* Root)
+	void Clear(Element*& Root)
 	{
 		if (Root==nullptr)return;
 		Clear(Root->pLeft);
 		Clear(Root->pRight);
 		delete Root;
+		Root = nullptr;
 	}
 	int MinValue(Element* Root)
 	{
@@ -141,7 +259,7 @@ public:
 	}
 	double AVG(Element* Root)
 	{
-		return (double)Sum(Root) / (double)Size(Root);
+		return (double)Sum(Root) / Size(Root);
 	}
 	int Search(int Target, Element* Root)
 	{
@@ -168,12 +286,27 @@ public:
 		}
 
 	}
-	void Erase(int Target, Element*Root)
+	void Erase(Element* Root, int Index)
 	{
 		if (Root->pLeft==nullptr&&Root->pRight==nullptr)
 		{
-			delete Root;
+			return;
 		}
+
+		if (Index<Root->Data)
+		{
+			Erase(Root->pLeft, Index);
+
+			if (Root->Data==Index)
+			{
+
+			}
+		}
+		else
+		{
+			Erase(Root->pRight, Index);
+		}
+		
 	}
 };
 
@@ -182,18 +315,15 @@ void main()
 	setlocale(LC_ALL, "RU");
 	int n; //размер дерева
 	cout << "Количество элементов дерева:"; cin >> n;
-	Tree tree;
-	for (int i = 0; i < n; i++)
-	{
-		tree.Insert(rand() % 100+10,tree.GetRoot());
-	}
-	tree.Print(tree.GetRoot());
-	cout << endl;
-	cout <<"MinValue: "<< tree.MinValue(tree.GetRoot()) << endl;
-	cout << "MaxValue: " << tree.MaxValue(tree.GetRoot()) << endl;
-	cout << "Sum: " << tree.Sum(tree.GetRoot()) << endl;
-	cout << "AVG: " << tree.AVG(tree.GetRoot()) << endl;
-	int target;
-	cout << "Значение для поиска:"; cin >> target;
-	cout << tree.Search(target, tree.GetRoot()) << endl;
+	Tree tree = {25,16,32,11,18,36,64,55,80,54,58,77,85};
+	Tree tree2 = tree;
+	tree.Print();
+	tree2.Print();
+	//int value; //размер дерева
+	//cout << "Введите удаляемое значение:"; cin >> value;
+	//tree.Erase(value);
+	//tree.Print();
+	//tree.Clear();
+	//tree.Print();
+	//tree2.Print();
 }
