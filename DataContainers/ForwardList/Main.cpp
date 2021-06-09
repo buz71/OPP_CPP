@@ -56,16 +56,11 @@ private:
 public:
 	Iterator(Element* Temp = nullptr) :Temp(Temp)
 	{
-#ifdef DEBUG
-		cout << "ICtor:\t" << this << endl;
-#endif // DEBUG
 
 	}
 	~Iterator()
 	{
-#ifdef DEBUG
-		cout << "IDeCtor:\t" << this << endl;
-#endif // DEBUG
+
 
 	}
 	//operators overload
@@ -379,10 +374,10 @@ public:
 	}
 };
 //Operators overload
-ForwardList operator+(const ForwardList left, const ForwardList right)
+ForwardList operator+(const ForwardList& left, const ForwardList& right)
 {
 	ForwardList result = left;
-	for (const Element* Temp = right.get_head(); Temp; Temp=Temp->get_pNext())
+	for (ForwardLIst::Element* Temp = right.get_head(); Temp; Temp=Temp->get_pNext())
 	{
 		result.push_back(Temp->get_Data());
 	}
