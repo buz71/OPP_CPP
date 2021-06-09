@@ -1,0 +1,7 @@
+﻿Build started...
+1>------ Build started: Project: Lists, Configuration: Debug x64 ------
+1>Main.cpp
+1>D:\StepAcademy\Projects\CPP_OOP\STL\Lists\Main.cpp(17,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+1>Lists.vcxproj -> D:\StepAcademy\Projects\CPP_OOP\STL\x64\Debug\Lists.exe
+1>Done building project "Lists.vcxproj".
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
