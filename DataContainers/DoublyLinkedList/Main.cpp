@@ -6,6 +6,7 @@ using std::endl;
 typedef unsigned int uint;
 #define tab "\t"
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 class Element
 {
@@ -57,6 +58,36 @@ public:
 	};
 	class Iterator
 	{
+=======
+#define delimiter "----------------------------------------------------\n";
+class List
+{
+public:
+	//inner classes
+	class Element
+	{
+	private:
+		int Data;
+		Element* pPrev;
+		Element* pNext;
+	public:
+		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr)
+		{
+			this->Data = Data;
+			this->pNext = pNext;
+			this->pPrev = pPrev;
+			cout << "ECtor:\t" << this << endl;
+		}
+		~Element()
+		{
+			cout << "EDeCtor:\t" << this << endl;
+		}
+		friend class List;
+		friend List operator+(const List& left, const List& right);
+	};
+	class Iterator
+	{
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 	private:
 		Element* Temp;
 	public:
@@ -117,6 +148,9 @@ public:
 		}
 		~ReverseIterator()
 		{
+<<<<<<< HEAD
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
+=======
 >>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 
 		}
@@ -167,6 +201,7 @@ public:
 	Element* Head;
 	Element* Tail;
 <<<<<<< HEAD
+<<<<<<< HEAD
 public:
 //Accessors+Mutators
 	Element* get_Head()
@@ -194,6 +229,16 @@ public:
 		cout << "LCtor:\t" << this << endl;
 >>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 	}
+=======
+	uint size;
+//Constructors
+	List()
+	{
+		Head = Tail = nullptr;
+		size = 0;
+		cout << "LCtor:\t" << this << endl;
+	}
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 	List(const List& other):List()//copy Ctor
 	{
 		for (Element* Temp = other.Head; Temp ; Temp=Temp->pNext)
@@ -325,6 +370,7 @@ public:
 		Element* New = new Element(Data);
 		New->pNext = Head;
 <<<<<<< HEAD
+<<<<<<< HEAD
 		New->pPrew = 
 		Head = New;
 		size++;
@@ -360,11 +406,24 @@ public:
 	}
 	void PushBack(int Data)
 	{
+=======
+		Head->pPrev = New;
+		Head = New;
+		size++;
+		//optimization code
+		//Head = Head->pPrev = new Element(Data, Head);
+	}
+	void PushBack(int Data)
+	{
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 		if (Head == nullptr && Tail == nullptr)
 		{
 			Head = Tail = new Element(Data);
 			size++;
 			return;
+<<<<<<< HEAD
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
+=======
 >>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 		}
 		/*Element* New = new Element(Data);
@@ -534,10 +593,13 @@ void main()
 	for (int i = 0; i < n; i++)
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		list.PushFront(rand() % 100 + 10);
 	}
 	list.Print();
 =======
+=======
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 		list.PushBack(rand() % 100 + 10);
 	}
 	list.Print();
@@ -563,6 +625,7 @@ void main()
 	for (int i : list)
 	{
 		cout << i << endl;
+<<<<<<< HEAD
 	}
 	cout << endl;
 #endif // ITERATOR_CHECK
@@ -572,6 +635,17 @@ void main()
 		cout << i << endl;
 	}
 	cout << endl;
+=======
+	}
+	cout << endl;
+#endif // ITERATOR_CHECK
+	List list = { 3,5,8,13,21 };
+	for (int i : list)
+	{
+		cout << i << endl;
+	}
+	cout << endl;
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 
 
 
@@ -579,6 +653,9 @@ void main()
 
 
 	
+<<<<<<< HEAD
+>>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
+=======
 >>>>>>> b3b6848fe423d5a678ded7fee78672151cbf80d0
 
 }
