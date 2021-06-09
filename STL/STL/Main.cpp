@@ -1,21 +1,19 @@
 #include<iostream>
 #include<array>
 #include<vector>
+#include <list>
 using namespace std;
 using std::cin;
 using std::cout;
 using std::endl;
 
-
-
 #define tab "\t"
 #define DELIMITER "-------------------------------------------------------"
 
 //#define STL_ARRAY
-#define STL_VECTOR
+//#define STL_VECTOR
 //#define STL_VECTOR_INSERT
-#define HOMEWORK
-
+//#define STL_VECTOR_ERASE
 template<typename T>void vector_properties(const vector<T>& vec);
 template<typename T>void print_vector(const vector<T>& vec);
 template<typename T>void reverse_print_vector(const vector<T>& vec);
@@ -93,15 +91,22 @@ void main()
 #endif // STL_VECTOR_INSERT
 #endif // STL_VECTOR
 
-
-#ifdef HOMEWORK
-	int index;
-	cout << "¬ведите индекс дл€ удалени€:  "; cin >> index;
-	vec.erase(vec.begin()+index);
+	vector<int> vec = { 3,5,8,13,21,34,55 };
+	print_vector(vec);
+	/*int index;
+	cout << "¬ведите индекс удалени€"; cin >> index;
+	vector <int>::iterator position = vec.begin()+index;
+	vec.erase(position);
+	print_vector(vec);*/
+#ifdef STL_VECTOR_ERASE
+	int index_start, index_end;
+	cout << "¬ведите начало удал€емого диапазона: "; cin >> index_start;
+	cout << "¬ведите конец удал€емого диапазона: "; cin >> index_end;
+	vec.erase(vec.begin() + index_start, vec.begin() + index_end);
 	print_vector(vec);
 	vector_properties(vec);
+#endif // STL_VECTOR_ERASE
 	reverse_print_vector(vec);
-#endif // HOMEWORK
 
 }
 
@@ -119,10 +124,9 @@ template<typename T>void print_vector(const vector<T>& vec)
 	}
 	cout << endl;
 };
-
 template<typename T>void reverse_print_vector(const vector<T>& vec)
 {
-	for (vector<T>::iterator it = vec.rbegin(); it != vec.rend(); it++)
+	for (vector<int>::const_reverse_iterator it = vec.crbegin(); it != vec.crend(); it++)
 	{
 		cout << *it << tab;
 	}
