@@ -4,22 +4,25 @@ using std::cin;
 using std::cout;
 using std::endl;
 typedef unsigned int uint;
+#define tab "\t"
 
 class Element
 {
 private:
-	Element* pNext;
-	Element* pPrew;
-	int Data;
-	static int count;
+	int Data; // значение
+	Element* pNext; //указатель на следующий элемент
+	Element* pPrew; //указатель на предыдущий элемент
+	static int count; //счетчик
 public:
-	explicit Element(int Data, Element* pNext = nullptr, Element* pPrew = nullptr)
+	explicit Element(int Data, Element* pNext = nullptr, Element* pPrew = nullptr):Data(Data),pNext(pNext),pPrew(pPrew)
 	{
 		count++;
+		cout << "ElementCtor:\t" << this << endl;
 	}
 	~Element()
 	{
 		count--;
+		cout << "ElementDeCtor:\t" << this << endl;
 	}
 	friend class DLinkedList;
 };
@@ -32,25 +35,54 @@ private:
 	Element* Head;
 	Element* Tail;
 public:
+//Accessors+Mutators
+	Element* get_Head()
+	{
+		return Head;
+	}
+//Ctors
 	explicit DLinkedList()
 	{
 		this->size = 0;
 		this->Head = nullptr;
 		this->Tail = nullptr;
+		cout << "ListCtor:\t" << this << endl;
+	}
+	~DLinkedList()
+	{
+		cout << "ListDeCtor:\t" << this << endl;
 	}
 //Methods
 	void PushFront(int Data)
 	{
 		Element* New = new Element(Data);
 		New->pNext = Head;
+		New->pPrew = 
 		Head = New;
 		size++;
 	};
+	void PushBack(int Data)
+	{
+		if (Head==nullptr)
+		{
+			PushFront(Data);
+			return;
+		}
+		Element* New = new Element(Data);
+		Element* Temp = Head;
+		while (Temp->pNext!=nullptr)
+		{
+			Temp = Temp->pNext;
+		}
+		Temp->pNext = New;
+		size++;
+	}
 	void Print()const
 	{
-		for (Element* Temp = Head;Temp!=nullptr; Temp=Temp->pNext)
+		Element* Temp = Head;
+		for (; Temp !=nullptr; Temp=Temp->pNext)
 		{
-			cout << Temp->Data << endl;
+			cout <<"Data: "<< Temp->Data<<tab <<"pNext:"<<Temp->pNext<<tab<<"pPrew:"<<Temp->pPrew << endl;
 		}
 	}
 	
@@ -65,7 +97,8 @@ void main()
 	DLinkedList list;
 	for (int i = 0; i < n; i++)
 	{
-		list.PushFront((rand() % 100) + 10);
+		list.PushFront(rand() % 100 + 10);
 	}
+	list.Print();
 
 }
