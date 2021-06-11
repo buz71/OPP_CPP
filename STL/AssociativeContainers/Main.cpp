@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <map>
 #include <list>
 using std::cout;
@@ -30,15 +30,15 @@ void main()
 	}*/
 	std::map<std::string, std::list<std::string>> dictionary 
 	{
-		std::pair < std::string, std::list<std::string>>("finite", {"ограниченный", "имеющий предел"}),
-		std::pair < std::string, std::list<std::string>>("adjacent", {"примыкающий", "соседний","соседний"}),
-		std::pair < std::string, std::list<std::string>>("plot", {"карта", "план","график","сюжет"}),
-		std::pair < std::string, std::list<std::string>>("incident", {"случайность", "проишествие"}),
-		std::pair < std::string, std::list<std::string>>("splice", {"соединение", "сращивание"}),
+		std::pair < std::string, std::list<std::string>>("finite", {"РѕРіСЂР°РЅРёС‡РµРЅРЅС‹Р№", "РёРјРµСЋС‰РёР№ РїСЂРµРґРµР»"}),
+		std::pair < std::string, std::list<std::string>>("adjacent", {"РїСЂРёРјС‹РєР°СЋС‰РёР№", "СЃРѕСЃРµРґРЅРёР№","СЃРѕСЃРµРґРЅРёР№"}),
+		std::pair < std::string, std::list<std::string>>("plot", {"РєР°СЂС‚Р°", "РїР»Р°РЅ","РіСЂР°С„РёРє","СЃСЋР¶РµС‚"}),
+		std::pair < std::string, std::list<std::string>>("incident", {"СЃР»СѓС‡Р°Р№РЅРѕСЃС‚СЊ", "РїСЂРѕРёС€РµСЃС‚РІРёРµ"}),
+		std::pair < std::string, std::list<std::string>>("splice", {"СЃРѕРµРґРёРЅРµРЅРёРµ", "СЃСЂР°С‰РёРІР°РЅРёРµ"}),
 	};
 
 	cout << dictionary["finite"].front() << endl;
-	dictionary["space"].assign({ "пространство", "космос", "пробел" });
+	dictionary["space"].assign({ "РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ", "РєРѕСЃРјРѕСЃ", "РїСЂРѕР±РµР»" });
 
 	for (std::map<std::string, std::list<std::string>>::iterator it = dictionary.begin(); it != dictionary.end(); it++)
 	{
