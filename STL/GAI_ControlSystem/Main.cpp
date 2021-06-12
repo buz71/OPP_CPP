@@ -11,9 +11,9 @@ typedef unsigned int uint;
 #define tab "\t";
 #define DELIMITER "---------------------------------------------------------------------------------------------\n";
 #define PRINT_BASE
-//#define PRINT_BY_NUMBER
-//#define PRINT_BY_RANGE
-//#define ADD_NEW
+#define PRINT_BY_NUMBER
+#define PRINT_BY_RANGE
+#define ADD_NEW
 
 int MaxValue(std::map<int, std::list<std::string>> base)
 {
@@ -123,11 +123,13 @@ void Add(std::map<int, std::list<std::string>>& base, int car_number, std::strin
 	if (already_in_base == false)
 	{
 		base.insert(std::pair<int, std::list<std::string>>(car_number, { violation }));
+	
 	}
 
 	else
 	{
-		base[car_number].assign({ violation });
+		base[car_number].push_front({ violation });
+		
 	}
 }
 
@@ -162,7 +164,7 @@ void main()
 #endif // PRINT_BY_RANGE
 #ifdef ADD_NEW
 	int car_number;
-	cout << "Введите номер автомобиля: "; cin >> car_number;
+	cout << "Введите номер нарушителя: "; cin >> car_number;
 	std::string violation;
 	cout << "Введите нарушение: "; cin >> violation;
 	Add(Base, car_number, violation);
