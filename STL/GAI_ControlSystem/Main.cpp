@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <map>
 #include<list>
+#include<Windows.h>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -12,7 +13,7 @@ typedef unsigned int uint;
 #define PRINT_BASE
 //#define PRINT_BY_NUMBER
 //#define PRINT_BY_RANGE
-#define ADD_NEW
+//#define ADD_NEW
 
 int MaxValue(std::map<int, std::list<std::string>> base)
 {
@@ -84,7 +85,6 @@ void PrintByRange(std::map<int, std::list<std::string>> base, int range_Begin, i
 	std::map<int, std::list<std::string>>::iterator it_range_Begin = base.lower_bound(range_Begin);
 	//Вычисление элемента range_End;
 	std::map<int, std::list<std::string>>::iterator it_range_End;
-	//it_range_End++;
 	if (MaxValue(base)<range_End)
 	{
 		it_range_End = base.find(MaxValue(base));
@@ -134,7 +134,8 @@ void Add(std::map<int, std::list<std::string>>& base, int car_number, std::strin
 
 void main()
 {
-	setlocale(LC_ALL, "RU");
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
 	std::map<int, std::list<std::string>> Base;
 	Base.insert(std::pair<int, std::list<std::string>>(118, { "Превышение", "Неправильная парковка" }));
 	Base.insert(std::pair<int, std::list<std::string>>(253, { "Просроченная страховка", "Езда без документов" }));
@@ -149,7 +150,6 @@ void main()
 	PrintBase(Base);
 #endif // PRINT_BASE
 #ifdef PRINT_BY_NUMBER
-
 	int number;
 	cout << "Введите номер для поиска в базе: "; cin >> number;
 	PrintByNumber(Base, number);
