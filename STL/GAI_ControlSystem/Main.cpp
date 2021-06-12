@@ -9,9 +9,10 @@ typedef unsigned int uint;
 
 #define tab "\t";
 #define DELIMITER "---------------------------------------------------------------------------------------------\n";
-//#define PRINT_BASE
+#define PRINT_BASE
 //#define PRINT_BY_NUMBER
 //#define PRINT_BY_RANGE
+#define ADD_NEW
 
 int MaxValue(std::map<int, std::list<std::string>> base)
 {
@@ -20,7 +21,7 @@ int MaxValue(std::map<int, std::list<std::string>> base)
 	{
 		if (max_value->first > max_number)
 		{
-			max_number == max_value->first;
+			max_number = max_value->first;
 		}
 	}
 	return max_number;
@@ -29,6 +30,7 @@ void PrintBase(std::map<int, std::list<std::string>> base)
 {
 	for (std::map<int, std::list<std::string>>::iterator it_base = base.begin(); it_base != base.end(); it_base++)
 	{
+		cout << DELIMITER;
 		cout << "|Номер: " << it_base->first << "| - " << "|Нарушения: ";
 		for (std::list<std::string>::iterator it_list = it_base->second.begin(); it_list != it_base->second.end(); it_list++)
 		{
@@ -46,17 +48,19 @@ void PrintByNumber(std::map<int,std::list<std::string>> base, int number)
 	{
 		if (it_base->first == number)
 		{
+			cout << DELIMITER;
 			cout << "|Номер: " << it_base->first << "| - " << "|Нарушения: ";
 			for (std::list<std::string>::iterator it_list = it_base->second.begin(); it_list != it_base->second.end(); it_list++)
 			{
 				cout << "|" << it_list->data() << "|";
 			}
 			cout << "  |" << endl;
+			cout << DELIMITER;
 			return;
 		}
 	}
 
-	cout << "Номера нет в базе!";
+	cout << "Номера нет в базе!\n";
 }
 void PrintByRange(std::map<int, std::list<std::string>> base, int range_Begin, int range_End)
 {
@@ -92,6 +96,7 @@ void PrintByRange(std::map<int, std::list<std::string>> base, int range_Begin, i
 	//Вывод
 	for (std::map<int, std::list<std::string>>::iterator it = it_range_Begin; it!= it_range_End; it++)
 		{
+			cout << DELIMITER;
 			cout << "|Номер: " << it->first << "| - " << "|Нарушения: ";
 			for (std::list<std::string>::iterator it_second = it->second.begin(); it_second != it->second.end(); it_second++)
 			{
@@ -102,21 +107,44 @@ void PrintByRange(std::map<int, std::list<std::string>> base, int range_Begin, i
 		}
 
 }
+void Add(std::map<int, std::list<std::string>>& base, int car_number, std::string violation)
+{
+	bool already_in_base = false;
+
+	for (std::map<int, std::list<std::string>>::iterator it = base.begin();it!=base.end();it++)
+	{
+		if (it->first==car_number)
+		{
+			already_in_base = true;
+			break;
+		}
+	}
+
+	if (already_in_base == false)
+	{
+		base.insert(std::pair<int, std::list<std::string>>(car_number, { violation }));
+	}
+
+	else
+	{
+		base[car_number].assign({ violation });
+	}
+}
 
 
 void main()
 {
 	setlocale(LC_ALL, "RU");
 	std::map<int, std::list<std::string>> Base;
-	Base.insert(std::pair<uint, std::list<std::string>>(1, { "Превышение", "Неправильная парковка" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(2, { "Просроченная страховка", "Езда без документов" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(3, { "Обгон на сплошной", "Авария" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(4, { "Обгон на сплошной", "Авария" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(5, { "Обгон на сплошной", "Авария" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(6, { "Обгон на сплошной", "Авария" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(7, { "Обгон на сплошной", "Авария" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(8, { "Обгон на сплошной", "Авария" }));
-	Base.insert(std::pair<uint, std::list<std::string>>(9, { "Обгон на сплошной", "Авария" }));
+	Base.insert(std::pair<int, std::list<std::string>>(118, { "Превышение", "Неправильная парковка" }));
+	Base.insert(std::pair<int, std::list<std::string>>(253, { "Просроченная страховка", "Езда без документов" }));
+	Base.insert(std::pair<int, std::list<std::string>>(200, { "Езда по тротуару", "Авария" }));
+	Base.insert(std::pair<int, std::list<std::string>>(655, { "Авария", "Превышение" }));
+	Base.insert(std::pair<int, std::list<std::string>>(598, { "Обгон на сплошной", "Авария" }));
+	Base.insert(std::pair<int, std::list<std::string>>(636, { "Езда по тротуару", "Авария" }));
+	Base.insert(std::pair<int, std::list<std::string>>(111, { "Обгон на сплошной", "Превышение" }));
+	Base.insert(std::pair<int, std::list<std::string>>(822, { "Езда без документов", "Обгон на сплошной" }));
+	Base.insert(std::pair<int, std::list<std::string>>(156, { "Обгон на сплошной", "Авария" }));
 #ifdef PRINT_BASE
 	PrintBase(Base);
 #endif // PRINT_BASE
@@ -132,5 +160,14 @@ void main()
 	cout << "Введите конец диапазона номеров для вывода: "; cin >> range_End;
 	PrintByRange(Base, range_Begin, range_End);
 #endif // PRINT_BY_RANGE
+#ifdef ADD_NEW
+	int car_number;
+	cout << "Введите номер автомобиля: "; cin >> car_number;
+	std::string violation;
+	cout << "Введите нарушение: "; cin >> violation;
+	Add(Base, car_number, violation);
+	PrintBase(Base);
+#endif // ADD_NEW
+
 
 }
