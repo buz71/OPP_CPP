@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <map>
 #include<list>
+#include<forward_list>
 #include<Windows.h>
 using std::cin;
 using std::cout;
@@ -11,10 +12,12 @@ typedef unsigned int uint;
 #define tab "\t";
 #define DELIMITER "---------------------------------------------------------------------------------------------\n";
 #define PRINT_BASE
-#define PRINT_BY_NUMBER
-#define PRINT_BY_RANGE
+//#define PRINT_BY_NUMBER
+//#define PRINT_BY_RANGE
 #define ADD_NEW
+#define MY_SOLUTION
 
+#ifdef MY_SOLUTION
 int MaxValue(std::map<int, std::list<std::string>> base)
 {
 	int max_number = 0;
@@ -27,7 +30,7 @@ int MaxValue(std::map<int, std::list<std::string>> base)
 	}
 	return max_number;
 }
-void PrintBase(std::map<int, std::list<std::string>> base) 
+void PrintBase(std::map<int, std::list<std::string>> base)
 {
 	for (std::map<int, std::list<std::string>>::iterator it_base = base.begin(); it_base != base.end(); it_base++)
 	{
@@ -35,16 +38,17 @@ void PrintBase(std::map<int, std::list<std::string>> base)
 		cout << "|Номер: " << it_base->first << "| - " << "|Нарушения: ";
 		for (std::list<std::string>::iterator it_list = it_base->second.begin(); it_list != it_base->second.end(); it_list++)
 		{
-			cout <<"|"<< it_list->data()<<"|";
+			cout << "|" << it_list->data() << "|";
 		};
 
 		cout << "  |" << endl;
 		cout << DELIMITER;
-	}	
-	
+	}
+
 };
-void PrintByNumber(std::map<int,std::list<std::string>> base, int number)
+void PrintByNumber(std::map<int, std::list<std::string>> base, int number)
 {
+
 	for (std::map<int, std::list<std::string>>::iterator it_base = base.begin(); it_base != base.end(); it_base++)
 	{
 		if (it_base->first == number)
@@ -66,18 +70,18 @@ void PrintByNumber(std::map<int,std::list<std::string>> base, int number)
 void PrintByRange(std::map<int, std::list<std::string>> base, int range_Begin, int range_End)
 {
 
-	if (range_Begin<0||range_End<0)
+	if (range_Begin < 0 || range_End < 0)
 	{
 		cout << "Некорректные значения";
 		return;
 	}
-	if (range_Begin==range_End)
+	if (range_Begin == range_End)
 	{
 		cout << "Некорректный диапазон" << endl;
 		return;
 	}
 	//Проверка на корректность диапазона номеров
-	if (range_Begin>range_End)
+	if (range_Begin > range_End)
 	{
 		std::swap(range_Begin, range_End);
 	}
@@ -85,7 +89,7 @@ void PrintByRange(std::map<int, std::list<std::string>> base, int range_Begin, i
 	std::map<int, std::list<std::string>>::iterator it_range_Begin = base.lower_bound(range_Begin);
 	//Вычисление элемента range_End;
 	std::map<int, std::list<std::string>>::iterator it_range_End;
-	if (MaxValue(base)<range_End)
+	if (MaxValue(base) < range_End)
 	{
 		it_range_End = base.find(MaxValue(base));
 	}
@@ -94,26 +98,26 @@ void PrintByRange(std::map<int, std::list<std::string>> base, int range_Begin, i
 		it_range_End = base.upper_bound(range_End);
 	}
 	//Вывод
-	for (std::map<int, std::list<std::string>>::iterator it = it_range_Begin; it!= it_range_End; it++)
+	for (std::map<int, std::list<std::string>>::iterator it = it_range_Begin; it != it_range_End; it++)
+	{
+		cout << DELIMITER;
+		cout << "|Номер: " << it->first << "| - " << "|Нарушения: ";
+		for (std::list<std::string>::iterator it_second = it->second.begin(); it_second != it->second.end(); it_second++)
 		{
-			cout << DELIMITER;
-			cout << "|Номер: " << it->first << "| - " << "|Нарушения: ";
-			for (std::list<std::string>::iterator it_second = it->second.begin(); it_second != it->second.end(); it_second++)
-			{
-				cout << "|" << it_second->data() << "|";
-			};
-			cout << "  |" << endl;
-			cout << DELIMITER;
-		}
+			cout << "|" << it_second->data() << "|";
+		};
+		cout << "  |" << endl;
+		cout << DELIMITER;
+	}
 
 }
 void Add(std::map<int, std::list<std::string>>& base, int car_number, std::string violation)
 {
 	bool already_in_base = false;
 
-	for (std::map<int, std::list<std::string>>::iterator it = base.begin();it!=base.end();it++)
+	for (std::map<int, std::list<std::string>>::iterator it = base.begin(); it != base.end(); it++)
 	{
-		if (it->first==car_number)
+		if (it->first == car_number)
 		{
 			already_in_base = true;
 			break;
@@ -123,13 +127,13 @@ void Add(std::map<int, std::list<std::string>>& base, int car_number, std::strin
 	if (already_in_base == false)
 	{
 		base.insert(std::pair<int, std::list<std::string>>(car_number, { violation }));
-	
+
 	}
 
 	else
 	{
 		base[car_number].push_front({ violation });
-		
+
 	}
 }
 
@@ -157,7 +161,7 @@ void main()
 	PrintByNumber(Base, number);
 #endif // PRINT_NY_NUMBER
 #ifdef PRINT_BY_RANGE
-	uint range_Begin, range_End;
+	int range_Begin, range_End;
 	cout << "Введите начало диапазона номеров для вывода: "; cin >> range_Begin;
 	cout << "Введите конец диапазона номеров для вывода: "; cin >> range_End;
 	PrintByRange(Base, range_Begin, range_End);
@@ -169,7 +173,7 @@ void main()
 	cout << "Введите нарушение: "; cin >> violation;
 	Add(Base, car_number, violation);
 	PrintBase(Base);
-#endif // ADD_NEW
-
+#endif // ADD_NEW  
 
 }
+#endif // MY_SOLUTION
