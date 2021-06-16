@@ -4,11 +4,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 using namespace std;
-
 //#define WRITE_TO_FILE
 //#define READ_FROM_FILE
-
-
 void main()
 {
 	setlocale(LC_ALL, "RU");
@@ -40,7 +37,6 @@ void main()
 	}
 	fin.close();
 #endif // READ_FROM_FILE
-
 	ofstream fout;
 	fstream fin;
 	fout.open("Copy.txt");
